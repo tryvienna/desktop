@@ -315,4 +315,59 @@ describe('SettingsRepository', () => {
     settings.update('appearance', { theme: 'dark' });
     expect(settings2.get('appearance').theme).toBe('dark');
   });
+
+  // ─────────────────────────────────────────────────────────────────────────
+  // Notifications category
+  // ─────────────────────────────────────────────────────────────────────────
+
+  describe('notifications', () => {
+    it('returns empty mute maps by default', () => {
+      const result = settings.get('notifications');
+      expect(result.mutedSources).toEqual({});
+      expect(result.mutedTypes).toEqual({});
+    });
+
+    it('updates mutedSources independently', () => {
+      const result = settings.update('notifications', {
+        mutedSources: { GitHub: true, 'Claude Code': false },
+      });
+      expect(result.mutedSources).toEqual({ GitHub: true, 'Claude Code': false });
+      expect(result.mutedTypes).toEqual({});
+    });
+
+    it('updates mutedTypes independently', () => {
+      const result = settings.update('notifications', {
+        mutedTypes: { 'github_cli.pr.created': true },
+      });
+      expect(result.mutedTypes).toEqual({ 'github_cli.pr.created': true });
+    });
+
+    it('preserves the other map when updating one', () => {
+      settings.update('notifications', { mutedSources: { GitHub: true } });
+      settings.update('notifications', { mutedTypes: { 'core.claude-code.turn.completed': true } });
+      const result = settings.get('notifications');
+      expect(result.mutedSources).toEqual({ GitHub: true });
+      expect(result.mutedTypes).toEqual({ 'core.claude-code.turn.completed': true });
+    });
+
+    it('can flip a mute back to unmuted', () => {
+      settings.update('notifications', { mutedSources: { GitHub: true } });
+      settings.update('notifications', { mutedSources: { GitHub: false } });
+      expect(settings.get('notifications').mutedSources).toEqual({ GitHub: false });
+    });
+
+    it('appears in getAll() output', () => {
+      const all = settings.getAll();
+      expect(all.notifications).toEqual({ mutedSources: {}, mutedTypes: {} });
+    });
+
+    it('falls back to defaults when stored value is corrupted', () => {
+      writeFileSync(
+        settingsPath,
+        JSON.stringify({ notifications: { mutedSources: 'not-an-object' } }),
+      );
+      const result = settings.get('notifications');
+      expect(result).toEqual({ mutedSources: {}, mutedTypes: {} });
+    });
+  });
 });

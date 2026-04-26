@@ -1135,6 +1135,7 @@ export const GET_SETTINGS = graphql(`
       ai { defaultModel cliPath cliSetupComplete autoCompactPercent }
       advanced { developerMode focusMonitorEnabled focusMonitorIntervalMs }
       permissions { activePreset rules { tool behavior entityType } }
+      notifications { mutedSources mutedTypes }
     }
   }
 `);
@@ -1146,6 +1147,7 @@ export const UPDATE_APPEARANCE_SETTINGS = graphql(`
       ai { defaultModel cliPath cliSetupComplete autoCompactPercent }
       advanced { developerMode focusMonitorEnabled focusMonitorIntervalMs }
       permissions { activePreset rules { tool behavior entityType } }
+      notifications { mutedSources mutedTypes }
     }
   }
 `);
@@ -1157,6 +1159,7 @@ export const UPDATE_AI_SETTINGS = graphql(`
       ai { defaultModel cliPath cliSetupComplete autoCompactPercent }
       advanced { developerMode focusMonitorEnabled focusMonitorIntervalMs }
       permissions { activePreset rules { tool behavior entityType } }
+      notifications { mutedSources mutedTypes }
     }
   }
 `);
@@ -1168,6 +1171,7 @@ export const UPDATE_ADVANCED_SETTINGS = graphql(`
       ai { defaultModel cliPath cliSetupComplete autoCompactPercent }
       advanced { developerMode focusMonitorEnabled focusMonitorIntervalMs }
       permissions { activePreset rules { tool behavior entityType } }
+      notifications { mutedSources mutedTypes }
     }
   }
 `);
@@ -1179,6 +1183,52 @@ export const UPDATE_SETTINGS_RAW = graphql(`
       ai { defaultModel cliPath cliSetupComplete autoCompactPercent }
       advanced { developerMode focusMonitorEnabled focusMonitorIntervalMs }
       permissions { activePreset rules { tool behavior entityType } }
+      notifications { mutedSources mutedTypes }
+    }
+  }
+`);
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Notifications Operations
+// ─────────────────────────────────────────────────────────────────────────────
+
+export const GET_NOTIFICATION_SOURCES = graphql(`
+  query GetNotificationSources {
+    notificationSources {
+      source
+      muted
+      types {
+        id
+        source
+        label
+        description
+        defaultEnabled
+        muted
+      }
+    }
+  }
+`);
+
+export const SET_NOTIFICATION_SOURCE_MUTED = graphql(`
+  mutation SetNotificationSourceMuted($source: String!, $muted: Boolean!) {
+    setNotificationSourceMuted(source: $source, muted: $muted) {
+      notifications { mutedSources mutedTypes }
+    }
+  }
+`);
+
+export const SET_NOTIFICATION_TYPE_MUTED = graphql(`
+  mutation SetNotificationTypeMuted($typeId: String!, $muted: Boolean!) {
+    setNotificationTypeMuted(typeId: $typeId, muted: $muted) {
+      notifications { mutedSources mutedTypes }
+    }
+  }
+`);
+
+export const RESET_NOTIFICATION_MUTES = graphql(`
+  mutation ResetNotificationMutes {
+    resetNotificationMutes {
+      notifications { mutedSources mutedTypes }
     }
   }
 `);
@@ -1522,6 +1572,7 @@ export const UPDATE_PERMISSIONS_SETTINGS = graphql(`
       ai { defaultModel cliPath cliSetupComplete autoCompactPercent }
       advanced { developerMode focusMonitorEnabled focusMonitorIntervalMs }
       permissions { activePreset rules { tool behavior entityType } }
+      notifications { mutedSources mutedTypes }
     }
   }
 `);

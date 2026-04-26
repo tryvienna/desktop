@@ -1,6 +1,6 @@
 import { useState, useEffect, useMemo } from 'react';
 import { useNavigate, useSearchParams } from 'react-router-dom';
-import { ArrowLeft, Palette, Bot, Wrench, Keyboard, PackageOpen, FolderKanban, User, Shield, Info, Tag, Users, Bug, Radio } from 'lucide-react';
+import { ArrowLeft, Palette, Bot, Wrench, Keyboard, PackageOpen, FolderKanban, User, Shield, Info, Tag, Users, Bug, Radio, Bell } from 'lucide-react';
 import { Button } from '@tryvienna/ui';
 import { cn } from '@tryvienna/ui/utils';
 import type { SettingsCategory as DbSettingsCategory } from '@vienna/app-db';
@@ -12,6 +12,7 @@ import { RegistrySettings } from '../components/settings/RegistrySettings';
 import { AccountSettings } from '../components/settings/AccountSettings';
 import { ProjectSettings } from '../components/settings/ProjectSettings';
 import { PermissionsSection } from '../components/settings/permissions/PermissionsSection';
+import { NotificationsSettings } from '../components/settings/NotificationsSettings';
 import { AboutSettings } from '../components/settings/AboutSettings';
 import { TagSettings } from '../components/settings/TagSettings';
 import { ProfileSettings } from '../components/settings/ProfileSettings';
@@ -31,6 +32,7 @@ const BASE_CATEGORIES: { key: PageCategory; label: string; icon: typeof Palette 
   { key: 'appearance', label: 'Appearance', icon: Palette },
   { key: 'ai', label: 'AI', icon: Bot },
   { key: 'permissions', label: 'Permissions', icon: Shield },
+  { key: 'notifications', label: 'Notifications', icon: Bell },
   { key: 'keyboard', label: 'Keyboard', icon: Keyboard },
   { key: 'registries', label: 'Registries', icon: PackageOpen },
   { key: 'advanced', label: 'Advanced', icon: Wrench },
@@ -129,6 +131,7 @@ export function SettingsPage() {
               {activeCategory === 'appearance' && <AppearanceSettings />}
               {activeCategory === 'ai' && <AiSettings />}
               {activeCategory === 'permissions' && <PermissionsSection />}
+              {activeCategory === 'notifications' && <NotificationsSettings />}
               {activeCategory === 'keyboard' && <KeyboardShortcutsSection />}
               {activeCategory === 'profiles' && <ProfileSettings />}
               {activeCategory === 'registries' && <RegistrySettings />}

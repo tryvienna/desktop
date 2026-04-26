@@ -851,6 +851,11 @@ type Mutation {
   """Re-scan .claude/commands directories for Claude custom commands"""
   rescanClaudeCommands: Boolean
 
+  """
+  Clear all notification mutes — every source and type returns to its default-enabled state.
+  """
+  resetNotificationMutes: Settings
+
   """Respond to a tool permission request"""
   respondWorkstreamPermission(requestId: String!, response: PermissionResponseInput!, workstreamId: ID!): RespondWorkstreamPermissionPayload
 
@@ -882,6 +887,12 @@ type Mutation {
 
   """Override the auto-generated context for a linked entity"""
   setLinkedEntityContextOverride(contextOverride: String, entityUri: String!, workstreamId: ID!): SetLinkedEntityContextOverridePayload
+
+  """Mute (or unmute) all notifications from a given source label."""
+  setNotificationSourceMuted(muted: Boolean!, source: String!): Settings
+
+  """Mute (or unmute) a single notification type by its stable id."""
+  setNotificationTypeMuted(muted: Boolean!, typeId: String!): Settings
 
   """Set permission overrides for a project, group, or workstream scope"""
   setPermissionPolicy(rules: [PermissionRuleConfigInput!]!, scopeId: String!, scopeType: PermissionScopeType!): PermissionPolicy
@@ -979,6 +990,33 @@ type MutationCatalogEntry {
   description: String
   entityType: String
   name: String
+}
+
+"""
+A group of notification types sharing a source label (e.g. "GitHub"). Has a master mute toggle.
+"""
+type NotificationSource {
+  muted: Boolean
+  source: String
+  types: [NotificationType!]
+}
+
+"""
+A registered inbox notification type, with the user's current mute state.
+"""
+type NotificationType {
+  defaultEnabled: Boolean
+  description: String
+  id: ID
+  label: String
+  muted: Boolean
+  source: String
+}
+
+"""Per-source / per-type mute preferences for inbox notifications."""
+type NotificationsSettings {
+  mutedSources: JSON
+  mutedTypes: JSON
 }
 
 type PauseRoutinePayload {
@@ -1277,6 +1315,16 @@ type Query {
 
   """List all active LSP server instances and their status"""
   lspServers: [LspServerStatus!]
+
+  """
+  Notification types grouped by source, with per-source master mute state.
+  """
+  notificationSources: [NotificationSource!]
+
+  """
+  All registered notification types with their current mute state computed from settings.
+  """
+  notificationTypes: [NotificationType!]
   permissionPolicy(scopeId: String!, scopeType: PermissionScopeType!): PermissionPolicy
 
   """Get a permission template by ID"""
@@ -1753,6 +1801,7 @@ type Settings {
   advanced: AdvancedSettings
   ai: AiSettings
   appearance: AppearanceSettings
+  notifications: NotificationsSettings
   permissionTemplates: PermissionTemplatesSettings
   permissions: PermissionsSettings
 }

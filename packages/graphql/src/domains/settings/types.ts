@@ -129,8 +129,14 @@ builder.objectType(SettingsRef, {
       type: PermissionTemplatesSettingsRef,
       resolve: (settings) => settings.permissionTemplates,
     }),
+    notifications: t.field({
+      type: NotificationsSettingsRef,
+      resolve: (settings) => settings.notifications,
+    }),
   }),
 });
 
-// Lazy import to avoid circular dependency — types.ts is registered before permission-templates/types.ts
+// Lazy imports to avoid circular dependency — types.ts is registered before
+// the referenced domains' types.ts files.
 import { PermissionTemplatesSettingsRef } from '../permission-templates/types';
+import { NotificationsSettingsRef } from '../notifications/types';

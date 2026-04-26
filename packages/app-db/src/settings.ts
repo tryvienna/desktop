@@ -18,6 +18,7 @@ import {
   AdvancedSettingsSchema,
   PermissionsSettingsSchema,
   PermissionTemplatesSettingsSchema,
+  NotificationsSettingsSchema,
   AllSettingsSchema,
 } from './schemas';
 import type {
@@ -27,12 +28,14 @@ import type {
   AdvancedSettings,
   PermissionsSettings,
   PermissionTemplatesSettings,
+  NotificationsSettings,
   AllSettings,
   UpdateAppearanceSettings,
   UpdateAiSettings,
   UpdateAdvancedSettings,
   UpdatePermissionsSettings,
   UpdatePermissionTemplatesSettings,
+  UpdateNotificationsSettings,
 } from './schemas';
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -45,6 +48,7 @@ const CATEGORY_SCHEMAS: Record<SettingsCategory, z.ZodType> = {
   advanced: AdvancedSettingsSchema,
   permissions: PermissionsSettingsSchema,
   permissionTemplates: PermissionTemplatesSettingsSchema,
+  notifications: NotificationsSettingsSchema,
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -57,6 +61,7 @@ type CategorySettingsMap = {
   advanced: AdvancedSettings;
   permissions: PermissionsSettings;
   permissionTemplates: PermissionTemplatesSettings;
+  notifications: NotificationsSettings;
 };
 
 type CategoryUpdateMap = {
@@ -65,6 +70,7 @@ type CategoryUpdateMap = {
   advanced: UpdateAdvancedSettings;
   permissions: UpdatePermissionsSettings;
   permissionTemplates: UpdatePermissionTemplatesSettings;
+  notifications: UpdateNotificationsSettings;
 };
 
 // ─────────────────────────────────────────────────────────────────────────────
@@ -141,6 +147,7 @@ export class SettingsRepository {
       advanced: this.get('advanced'),
       permissions: this.get('permissions'),
       permissionTemplates: this.get('permissionTemplates'),
+      notifications: this.get('notifications'),
     });
   }
 
