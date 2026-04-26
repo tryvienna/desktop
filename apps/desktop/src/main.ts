@@ -919,6 +919,10 @@ app.on('ready', async () => {
           usage: { inputTokens: number; outputTokens: number };
           contentTypes: readonly string[]; timestamp: string;
         };
+        // Suppress notifications from Claude sessions launched inside Vienna —
+        // the user is already watching those in the workstream UI.
+        const session = sessionRepo.getByProviderSessionId(p.sessionId);
+        if (session?.workstreamId) return;
         // Only create inbox item if the turn included tool use (i.e., Claude did something)
         if (p.contentTypes.includes('tool_use') || p.contentTypes.includes('text')) {
           appDb.inboxItems.create({

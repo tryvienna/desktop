@@ -81,6 +81,14 @@ ALTER TABLE sessions ADD COLUMN workstream_id TEXT;
 CREATE INDEX IF NOT EXISTS idx_sessions_workstream ON sessions(workstream_id, status);
 `,
   },
+  {
+    version: 3,
+    sql: `
+-- Lookup sessions by the provider's session id (e.g. to check whether a
+-- Claude Code transcript belongs to a Vienna-launched workstream session).
+CREATE INDEX IF NOT EXISTS idx_sessions_provider_session_id ON sessions(provider_session_id);
+`,
+  },
 ];
 
 // ─────────────────────────────────────────────────────────────────────────────
