@@ -57,6 +57,7 @@ import { setupInboxWindow, destroyInboxWindow } from './main/inbox-window';
 import { setupInboxNotifications } from './main/inbox-notifications';
 import { setupNotificationDrawer, showNotificationDrawer, destroyNotificationDrawer } from './main/notification-drawer';
 import { setupActionFormWindow, showActionFormWindow, hideActionFormWindow, destroyActionFormWindow, isMainWindowVisible } from './main/action-form-window';
+import { NotificationGate, NotificationTypeRegistry } from './main/notifications';
 import { TagPipelineExecutor } from './main/tags';
 import { ReferenceDetector } from './main/references/ReferenceDetector';
 import { AuthManager } from './main/auth/AuthManager';
@@ -851,8 +852,8 @@ app.on('ready', async () => {
   inboxActions.register(updatePrAction());
 
   // ── Core event listeners → inbox items ─────────────────────────────────
-  // Create inbox notifications when plugin events fire.
-  // Each listener calls appDb.inboxItems.create() and broadcasts to windows.
+  // Plugin events fire → routed through NotificationGate → (if not muted)
+  // appDb.inboxItems.create() + broadcast.
 
   /** Notify all renderers, update tray badge, and show the notification drawer. */
   const broadcastInbox = () => {
@@ -870,6 +871,17 @@ app.on('ready', async () => {
     showNotificationDrawer();
   };
 
+  // Granular per-source / per-type mute controls. Settings are read on every
+  // notify() so toggles take effect immediately without an app restart.
+  const notificationRegistry = new NotificationTypeRegistry();
+  const notificationGate = new NotificationGate({
+    registry: notificationRegistry,
+    getSettings: () => appDb.settings.get('notifications'),
+    createInboxItem: (input) => appDb.inboxItems.create(input),
+    broadcast: broadcastInbox,
+    log: (msg, meta) => logger.debug(msg, meta),
+  });
+
   // TODO detected in source code → inbox item
   pluginSystem.registerCoreListeners([
     {
@@ -879,11 +891,10 @@ app.on('ready', async () => {
           tag: string; text: string; file: string; line: number;
           context: string; repoRoot: string;
         };
-        appDb.inboxItems.create({
+        notificationGate.notify('core.src.todo.added', {
           title: `${p.tag}: ${p.text || 'new comment'}`,
           description: `${p.file}:${p.line} — ${p.context}`,
           icon: p.tag === 'FIXME' ? '🔧' : p.tag === 'HACK' ? '⚠️' : '📝',
-          source: 'Claude Code',
           actions: [
             {
               id: 'core.create-task',
@@ -892,7 +903,6 @@ app.on('ready', async () => {
             },
           ],
         });
-        broadcastInbox();
       },
     },
     {
@@ -902,13 +912,11 @@ app.on('ready', async () => {
           tag: string; text: string; file: string; line: number;
           context: string; repoRoot: string;
         };
-        appDb.inboxItems.create({
+        notificationGate.notify('core.src.todo.removed', {
           title: `${p.tag} removed: ${p.text || 'comment removed'}`,
           description: `${p.file}:${p.line}`,
           icon: '🗑️',
-          source: 'Claude Code',
         });
-        broadcastInbox();
       },
     },
     {
@@ -920,18 +928,17 @@ app.on('ready', async () => {
           contentTypes: readonly string[]; timestamp: string;
         };
         // Suppress notifications from Claude sessions launched inside Vienna —
-        // the user is already watching those in the workstream UI.
+        // the user is already watching those in the workstream UI. This is a
+        // context-specific predicate, not a user setting.
         const session = sessionRepo.getByProviderSessionId(p.sessionId);
         if (session?.workstreamId) return;
         // Only create inbox item if the turn included tool use (i.e., Claude did something)
         if (p.contentTypes.includes('tool_use') || p.contentTypes.includes('text')) {
-          appDb.inboxItems.create({
+          notificationGate.notify('core.claude-code.turn.completed', {
             title: `Turn completed (${p.model.split('-').slice(-2).join('-')})`,
             description: `${p.usage.inputTokens + p.usage.outputTokens} tokens used`,
             icon: '✅',
-            source: 'Claude Code',
           });
-          broadcastInbox();
         }
       },
     },
@@ -947,13 +954,11 @@ app.on('ready', async () => {
         if (p.impactCount === 0) return;
         const fileName = p.changedFile.split('/').pop() ?? p.changedFile;
         const project = p.projectRoot.split('/').pop() ?? p.projectRoot;
-        appDb.inboxItems.create({
+        notificationGate.notify('vercel_cli.route.analysis.complete', {
           title: `${p.impactCount} route${p.impactCount > 1 ? 's' : ''} impacted by ${fileName}`,
           description: project,
           icon: '🔀',
-          source: 'Next.js',
         });
-        broadcastInbox();
       },
     },
   ]);
@@ -972,11 +977,10 @@ app.on('ready', async () => {
           prNumber: number | null; prUrl: string; timestamp: string;
         };
         const prLabel = p.prNumber ? `PR #${p.prNumber}` : 'PR';
-        appDb.inboxItems.create({
+        notificationGate.notify('github_cli.pr.created', {
           title: `${prLabel} created on ${p.owner}/${p.repo}`,
           description: `${p.branch} → ${p.defaultBranch}`,
           icon: '🔀',
-          source: 'GitHub',
           entityUri: p.prNumber ? `@vienna//github_pr/${p.owner}/${p.repo}/${p.prNumber}` : undefined,
           actions: [
             {
@@ -991,7 +995,6 @@ app.on('ready', async () => {
             },
           ],
         });
-        broadcastInbox();
       },
     },
     {
@@ -1019,11 +1022,10 @@ app.on('ready', async () => {
 
             if (existingPr) {
               // PR exists — CTA is "Update PR" (opens the existing PR)
-              appDb.inboxItems.create({
+              notificationGate.notify('github_cli.commit.created', {
                 title: `Commit ${p.commitHash.slice(0, 7)} on ${p.owner}/${p.repo}`,
                 description: `${p.commitMessage}${filesDesc}`,
                 icon: '📦',
-                source: 'GitHub',
                 actions: [
                   {
                     id: 'github-cli.update-pr',
@@ -1042,11 +1044,10 @@ app.on('ready', async () => {
               });
             } else {
               // No PR — CTA is "Create PR"
-              appDb.inboxItems.create({
+              notificationGate.notify('github_cli.commit.created', {
                 title: `Commit ${p.commitHash.slice(0, 7)} on ${p.owner}/${p.repo}`,
                 description: `${p.commitMessage}${filesDesc}`,
                 icon: '📦',
-                source: 'GitHub',
                 actions: [
                   {
                     id: 'github-cli.create-pr',
@@ -1063,17 +1064,13 @@ app.on('ready', async () => {
                 ],
               });
             }
-
-            broadcastInbox();
           } catch {
             // If gh CLI fails, still create the inbox item without a PR-related action
-            appDb.inboxItems.create({
+            notificationGate.notify('github_cli.commit.created', {
               title: `Commit ${p.commitHash.slice(0, 7)} on ${p.owner}/${p.repo}`,
               description: p.commitMessage,
               icon: '📦',
-              source: 'GitHub',
             });
-            broadcastInbox();
           }
         })();
       },
@@ -1088,14 +1085,12 @@ app.on('ready', async () => {
           mergeMethod: string; timestamp: string;
         };
         const prLabel = p.prNumber ? `PR #${p.prNumber}` : 'PR';
-        appDb.inboxItems.create({
+        notificationGate.notify('github_cli.pr.merged', {
           title: `${prLabel} merged (${p.mergeMethod})`,
           description: `${p.owner}/${p.repo}`,
           icon: '🎉',
-          source: 'GitHub',
           entityUri: p.prNumber ? `@vienna//github_pr/${p.owner}/${p.repo}/${p.prNumber}` : undefined,
         });
-        broadcastInbox();
       },
     },
   ]);

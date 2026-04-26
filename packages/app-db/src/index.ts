@@ -201,7 +201,13 @@ export {
   PermissionTemplateSchema,
   PermissionTemplatesSettingsSchema,
   UpdatePermissionTemplatesSettingsSchema,
+  // Notification settings schemas
+  NotificationsSettingsSchema,
+  UpdateNotificationsSettingsSchema,
 } from './schemas';
+export { isNotificationMuted } from './schemas';
+export { BUILTIN_NOTIFICATION_TYPES, listNotificationSources } from './notification-types';
+export type { NotificationType } from './notification-types';
 export type {
   ProjectRecord,
   ProjectDirectoryRecord,
@@ -286,6 +292,9 @@ export type {
   PermissionTemplate,
   PermissionTemplatesSettings,
   UpdatePermissionTemplatesSettings,
+  // Notification settings types
+  NotificationsSettings,
+  UpdateNotificationsSettings,
 } from './schemas';
 
 // ─────────────────────────────────────────────────────────────────────────────

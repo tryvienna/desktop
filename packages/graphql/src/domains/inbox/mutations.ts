@@ -8,6 +8,7 @@ import { GraphQLError } from 'graphql';
 import { builder } from '../../schema/builder';
 import { InboxItemRef } from './types';
 import type { InboxItemRecord } from '@vienna/app-db';
+import { isNotificationMuted } from '@vienna/app-db';
 import { validateString, validateOptionalString } from '../../validation';
 
 // ── Payload types ───────────────────────────────────────────────────────────
@@ -98,6 +99,16 @@ builder.mutationFields((t) => ({
 
       // Source is derived from caller identity — plugins can't spoof it.
       const source = ctx.callerPluginId ?? 'Vienna';
+      // Plugin-pushed items get an auto-derived type id, so the user can mute
+      // them at the source level (or at the type level if a plugin uses
+      // multiple ids; for now plugins share one default id per source).
+      const typeId = `${source}.default`;
+
+      // Apply the same mute settings the main-process gate uses.
+      const settings = ctx.db.settings.get('notifications');
+      if (isNotificationMuted(typeId, source, settings)) {
+        return { inboxItem: null };
+      }
 
       const inboxItem = ctx.db.inboxItems.create({
         title: args.input.title,

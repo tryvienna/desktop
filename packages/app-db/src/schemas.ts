@@ -591,9 +591,62 @@ export const UpdatePermissionTemplatesSettingsSchema = z.object({
 });
 export type UpdatePermissionTemplatesSettings = z.infer<typeof UpdatePermissionTemplatesSettingsSchema>;
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Notifications Settings
+// ─────────────────────────────────────────────────────────────────────────────
+
+/**
+ * Notification mute preferences.
+ *
+ * Two independent maps. A notification is muted iff its source OR its type id
+ * is set to true. Unknown sources / type ids are not muted (default allow), so
+ * new notification types from plugins surface immediately and the user can
+ * silence them after seeing the first one.
+ */
+export const NotificationsSettingsSchema = z
+  .object({
+    /** Map of source label (e.g. 'GitHub') → muted. */
+    mutedSources: z.record(z.boolean()).default({}),
+    /** Map of notification type id (e.g. 'github_cli.pr.created') → muted. */
+    mutedTypes: z.record(z.boolean()).default({}),
+  })
+  .default({});
+export type NotificationsSettings = z.infer<typeof NotificationsSettingsSchema>;
+
+export const UpdateNotificationsSettingsSchema = z.object({
+  mutedSources: z.record(z.boolean()).optional(),
+  mutedTypes: z.record(z.boolean()).optional(),
+});
+export type UpdateNotificationsSettings = z.infer<typeof UpdateNotificationsSettingsSchema>;
+
+/**
+ * Pure predicate shared between the main-process notification gate and the
+ * GraphQL `pushInboxItem` mutation: should a notification of `(typeId, source)`
+ * be allowed by `settings`? Source mute beats type mute.
+ *
+ * `null`/missing source means the caller didn't classify the item — falls back
+ * to type-level check only.
+ */
+export function isNotificationMuted(
+  typeId: string,
+  source: string | null,
+  settings: NotificationsSettings,
+): boolean {
+  if (source !== null && settings.mutedSources[source]) return true;
+  if (settings.mutedTypes[typeId]) return true;
+  return false;
+}
+
 // --- Aggregate settings (all categories) ---
 
-export const SettingsCategorySchema = z.enum(['appearance', 'ai', 'advanced', 'permissions', 'permissionTemplates']);
+export const SettingsCategorySchema = z.enum([
+  'appearance',
+  'ai',
+  'advanced',
+  'permissions',
+  'permissionTemplates',
+  'notifications',
+]);
 export type SettingsCategory = z.infer<typeof SettingsCategorySchema>;
 
 export const AllSettingsSchema = z.object({
@@ -602,6 +655,7 @@ export const AllSettingsSchema = z.object({
   advanced: AdvancedSettingsSchema.default({}),
   permissions: PermissionsSettingsSchema,
   permissionTemplates: PermissionTemplatesSettingsSchema,
+  notifications: NotificationsSettingsSchema,
 });
 export type AllSettings = z.infer<typeof AllSettingsSchema>;
 

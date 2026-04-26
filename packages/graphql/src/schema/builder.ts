@@ -33,6 +33,7 @@ import type {
   PermissionPolicyRecord,
   PermissionTemplate,
   PermissionTemplatesSettings,
+  NotificationsSettings,
   WorkstreamTagRecord,
   TaskRecord,
   TaskLabelRecord,
@@ -458,6 +459,7 @@ export const builder = new SchemaBuilder<{
     PermissionPolicy: PermissionPolicyRecord;
     PermissionTemplate: PermissionTemplate;
     PermissionTemplatesSettings: PermissionTemplatesSettings;
+    NotificationsSettings: NotificationsSettings;
     Command: CommandDefinitionRecord;
     CommandResultAction: CommandResultActionRecord;
     InstalledSkill: InstalledSkillShape;
