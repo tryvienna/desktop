@@ -54,6 +54,7 @@ function rowToRecord(row: SessionRow): SessionRecord {
 export class SessionRepository {
   private readonly insertStmt: Statement;
   private readonly getByIdStmt: Statement;
+  private readonly getByProviderSessionIdStmt: Statement;
   private readonly listActiveStmt: Statement;
   private readonly updateStatusStmt: Statement;
   private readonly updateActivityStmt: Statement;
@@ -71,6 +72,10 @@ export class SessionRepository {
     `);
 
     this.getByIdStmt = db.prepare('SELECT * FROM sessions WHERE id = ?');
+
+    this.getByProviderSessionIdStmt = db.prepare(
+      'SELECT * FROM sessions WHERE provider_session_id = ? ORDER BY last_activity_at DESC LIMIT 1'
+    );
 
     this.listActiveStmt = db.prepare(
       'SELECT * FROM sessions WHERE status = ? ORDER BY last_activity_at DESC'
@@ -128,6 +133,12 @@ export class SessionRepository {
 
   getById(id: string): SessionRecord | null {
     const row = this.getByIdStmt.get(id) as SessionRow | undefined;
+    return row ? rowToRecord(row) : null;
+  }
+
+  /** Look up a session by the provider's session id (e.g. Claude Code's transcript sessionId). */
+  getByProviderSessionId(providerSessionId: string): SessionRecord | null {
+    const row = this.getByProviderSessionIdStmt.get(providerSessionId) as SessionRow | undefined;
     return row ? rowToRecord(row) : null;
   }
 

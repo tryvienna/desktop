@@ -76,20 +76,21 @@ describe('openDatabase', () => {
   it('records migration version', () => {
     const db = createTestDb();
     const rows = db.prepare('SELECT version FROM _migrations ORDER BY version').all() as Array<{ version: number }>;
-    expect(rows).toHaveLength(2);
+    expect(rows).toHaveLength(3);
     expect(rows[0].version).toBe(1);
     expect(rows[1].version).toBe(2);
+    expect(rows[2].version).toBe(3);
   });
 
   it('is idempotent (running again does nothing)', () => {
     const testDb = createTestDb();
     // Verify migrations table exists and has the expected rows
     const rows = testDb.prepare('SELECT version FROM _migrations').all();
-    expect(rows).toHaveLength(2);
+    expect(rows).toHaveLength(3);
     // Creating another in-memory db also works fine
     const testDb2 = openDatabase({ path: ':memory:' });
     const rows2 = testDb2.prepare('SELECT version FROM _migrations').all();
-    expect(rows2).toHaveLength(2);
+    expect(rows2).toHaveLength(3);
     closeDatabase(testDb2);
   });
 });
@@ -164,6 +165,26 @@ describe('SessionRepository', () => {
     repo.setProviderSessionId('sess-1', 'claude-internal-abc');
     const session = repo.getById('sess-1');
     expect(session!.providerSessionId).toBe('claude-internal-abc');
+  });
+
+  describe('getByProviderSessionId', () => {
+    it('returns the session with a matching provider session id', () => {
+      const db = createTestDb();
+      const repo = new SessionRepository(db);
+      repo.create(makeSession({ id: 'sess-1', workstreamId: 'ws-1' }));
+      repo.setProviderSessionId('sess-1', 'claude-abc');
+
+      const result = repo.getByProviderSessionId('claude-abc');
+      expect(result).not.toBeNull();
+      expect(result!.id).toBe('sess-1');
+      expect(result!.workstreamId).toBe('ws-1');
+    });
+
+    it('returns null when no session has the provider session id', () => {
+      const db = createTestDb();
+      const repo = new SessionRepository(db);
+      expect(repo.getByProviderSessionId('claude-missing')).toBeNull();
+    });
   });
 
   // ── getResumableByWorkstream ────────────────────────────────────────
