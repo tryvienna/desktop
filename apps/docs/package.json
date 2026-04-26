@@ -1,0 +1,32 @@
+{
+  "name": "@vienna/docs",
+  "version": "0.1.0",
+  "private": true,
+  "license": "Apache-2.0",
+  "author": "Vienna contributors",
+  "homepage": "https://tryvienna.dev/docs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tryvienna/desktop.git",
+    "directory": "apps/docs"
+  },
+  "bugs": {
+    "url": "https://github.com/tryvienna/desktop/issues"
+  },
+  "type": "module",
+  "scripts": {
+    "dev": "ESBUILD_BINARY_PATH=$(node scripts/resolve-esbuild.js) vitepress dev",
+    "build": "tsx scripts/generate-ui-reference.ts && ESBUILD_BINARY_PATH=$(node scripts/resolve-esbuild.js) vitepress build",
+    "preview": "vitepress preview",
+    "generate:reference": "tsx scripts/generate-sdk-reference.ts",
+    "generate:ui-reference": "tsx scripts/generate-ui-reference.ts",
+    "generate:all": "tsx scripts/generate-sdk-reference.ts && tsx scripts/generate-ui-reference.ts",
+    "docs": "tsx scripts/docs.ts"
+  },
+  "devDependencies": {
+    "ts-morph": "^27.0.2",
+    "tsx": "^4.21.0",
+    "vitepress": "^1.6.4",
+    "vue": "^3.5.30"
+  }
+}

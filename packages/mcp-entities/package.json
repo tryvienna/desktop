@@ -1,0 +1,54 @@
+{
+  "name": "@vienna/mcp-entities",
+  "version": "0.0.1",
+  "private": true,
+  "description": "MCP server exposing Vienna entity operations to Claude",
+  "license": "Apache-2.0",
+  "author": "Vienna contributors",
+  "homepage": "https://tryvienna.dev/docs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tryvienna/desktop.git",
+    "directory": "packages/mcp-entities"
+  },
+  "bugs": {
+    "url": "https://github.com/tryvienna/desktop/issues"
+  },
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "bin": {
+    "vienna-mcp-entities": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc --build",
+    "bundle": "esbuild src/index.ts --bundle --platform=node --format=esm --target=node22 --outfile=dist/mcp-entities/index.js",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format:check": "prettier --check .",
+    "format": "prettier --write .",
+    "test": "pnpm run test:unit",
+    "test:unit": "vitest run",
+    "test:coverage": "vitest run --coverage"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.4",
+    "@tryvienna/sdk": "workspace:*",
+    "zod": "^3.25.67",
+    "zod-to-json-schema": "^3.24.5"
+  },
+  "devDependencies": {
+    "esbuild": "^0.25.0",
+    "@eslint/js": "^9.39.3",
+    "@types/node": "^25.3.2",
+    "@vitest/coverage-v8": "^4.0.18",
+    "eslint": "^9.39.3",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.8.1",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.56.1",
+    "vitest": "^4.0.18"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "name": "@vienna/file-search",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "description": "Shared file search primitives: fuzzy scoring, language detection, ignore rules",
+  "license": "Apache-2.0",
+  "author": "Vienna contributors",
+  "homepage": "https://tryvienna.dev/docs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tryvienna/desktop.git",
+    "directory": "packages/file-search"
+  },
+  "bugs": {
+    "url": "https://github.com/tryvienna/desktop/issues"
+  },
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc --build",
+    "clean": "rm -rf dist tsconfig.tsbuildinfo",
+    "typecheck": "tsc --noEmit",
+    "test": "pnpm run test:unit",
+    "test:unit": "vitest run"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18"
+  }
+}

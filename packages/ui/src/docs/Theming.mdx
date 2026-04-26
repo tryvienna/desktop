@@ -1,0 +1,165 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Getting Started/Theming" />
+
+# Theming
+
+`@tryvienna/ui` uses a **CSS custom property** system built on the OKLCH color space, with three built-in themes. Components reference semantic tokens (like `--surface-page` or `--text-primary`) rather than hardcoded colors, so theme switching is automatic.
+
+## Built-in themes
+
+| Theme | Class | Description |
+|---|---|---|
+| **Vienna Light** | `.light` | Clean light theme with warm neutrals |
+| **Vienna Gold** | `.dark` | Dark theme with warm amber/gold accents (default) |
+| **VS Code Dark+** | `.dark.theme-vscode` | Familiar dark theme matching VS Code |
+
+Themes are applied via CSS classes on a parent element:
+
+```html
+<!-- Light theme -->
+<div class="light">...</div>
+
+<!-- Dark theme (default) -->
+<div class="dark">...</div>
+
+<!-- VS Code Dark+ -->
+<div class="dark theme-vscode">...</div>
+```
+
+Use the **theme switcher** in the Storybook toolbar to preview components in all three themes.
+
+## Semantic token layers
+
+The token system is organized into three layers:
+
+### 1. Palette tokens (raw colors)
+
+Low-level OKLCH color scales. You rarely use these directly.
+
+```css
+--color-gray-50 ... --color-gray-1050
+--color-brand-50 ... --color-brand-950
+--color-violet-50 ... --color-violet-950
+--color-emerald-50 ... --color-emerald-950
+--color-red-50 ... --color-red-950
+--color-amber-50 ... --color-amber-950
+--color-blue-50 ... --color-blue-950
+--color-cyan-50 ... --color-cyan-950
+```
+
+### 2. Semantic tokens (surfaces, text, borders)
+
+These are what components actually reference. They remap to different palette values per theme.
+
+**Surfaces:**
+```
+--surface-page          Page background
+--surface-primary       Primary content areas
+--surface-secondary     Secondary/nested content areas
+--surface-tertiary      Third-level nesting
+--surface-elevated      Elevated elements (popovers, dropdowns)
+--surface-overlay       Overlay backgrounds
+--surface-inset         Inset/recessed areas
+```
+
+**Text:**
+```
+--text-primary          Main body text
+--text-secondary        Supporting text
+--text-muted            De-emphasized text
+--text-accent           Brand-colored text
+--text-on-accent        Text on accent backgrounds
+--text-success          Success state text
+--text-warning          Warning state text
+--text-error            Error state text
+--text-link             Hyperlink text
+```
+
+**Borders:**
+```
+--border-primary        Default borders
+--border-secondary      Subtle borders
+--border-focus          Focus ring color
+--border-error          Error state borders
+--border-accent         Accent borders
+```
+
+### 3. Component tokens
+
+Some components define their own tokens for fine-grained control:
+
+```
+--sidebar-*             Sidebar system colors
+--chart-*               Chart palette (1-5)
+```
+
+## Using tokens in your plugin
+
+### With Tailwind utilities
+
+Most semantic tokens are mapped to Tailwind utilities automatically:
+
+```tsx
+<div className="bg-surface-primary text-primary border border-primary">
+  Content
+</div>
+```
+
+### With CSS variables directly
+
+For cases where you need raw CSS values:
+
+```tsx
+<div style={{ backgroundColor: 'var(--surface-primary)' }}>
+  Content
+</div>
+```
+
+### Spacing
+
+The spacing system uses a 4px base with an 8pt grid:
+
+```
+p-1 = 4px     (sub-step)
+p-2 = 8px     ← 8pt grid
+p-3 = 12px    (sub-step)
+p-4 = 16px    ← 8pt grid
+p-6 = 24px    ← 8pt grid
+p-8 = 32px    ← 8pt grid
+```
+
+Prefer 8pt grid values (`p-2`, `p-4`, `p-6`, `p-8`) for main spacing. Use 4px sub-steps (`p-1`, `p-3`, `p-5`) only for fine-tuning.
+
+### Border radius
+
+```
+--radius-sm   Small elements (badges, tags)
+--radius-md   Default (inputs, cards)
+--radius-lg   Large elements (dialogs, sheets)
+```
+
+## Creating custom themes
+
+To create a custom theme, define a new class that overrides the semantic tokens:
+
+```css
+.my-custom-theme {
+  --surface-page: oklch(95% 0.01 240);
+  --surface-primary: oklch(98% 0.005 240);
+  --text-primary: oklch(20% 0.02 240);
+  --text-secondary: oklch(40% 0.01 240);
+  --border-primary: oklch(85% 0.01 240);
+  /* ... override as many tokens as needed */
+}
+```
+
+Then apply it:
+
+```html
+<div class="my-custom-theme">
+  <Button>Themed button</Button>
+</div>
+```
+
+You only need to override the tokens you want to change — unspecified tokens inherit from the default theme.

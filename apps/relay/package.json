@@ -1,0 +1,41 @@
+{
+  "name": "@vienna/relay",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Tunnel relay server for desktop ↔ mobile GraphQL",
+  "license": "Apache-2.0",
+  "author": "Vienna contributors",
+  "homepage": "https://tryvienna.dev/docs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tryvienna/desktop.git",
+    "directory": "apps/relay"
+  },
+  "bugs": {
+    "url": "https://github.com/tryvienna/desktop/issues"
+  },
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc --build",
+    "start": "node dist/index.js",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint ."
+  },
+  "dependencies": {
+    "dotenv": "^17.3.1",
+    "express": "^5.1.0",
+    "jose": "^6.0.11",
+    "ws": "^8.19.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.3",
+    "@types/express": "^5.0.0",
+    "@types/node": "^25.3.2",
+    "@types/ws": "^8.18.1",
+    "eslint": "^9.39.3",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.56.1"
+  }
+}

@@ -1,0 +1,43 @@
+{
+  "name": "@vienna/shell-env",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Shell environment resolution for Electron apps — resolves the user's full login shell environment for child process spawning",
+  "license": "Apache-2.0",
+  "author": "Vienna contributors",
+  "homepage": "https://tryvienna.dev/docs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tryvienna/desktop.git",
+    "directory": "packages/shell-env"
+  },
+  "bugs": {
+    "url": "https://github.com/tryvienna/desktop/issues"
+  },
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc --build",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format:check": "prettier --check .",
+    "format": "prettier --write .",
+    "test": "pnpm run test:unit",
+    "test:unit": "vitest run",
+    "test:coverage": "vitest run --coverage"
+  },
+  "devDependencies": {
+    "@vitest/coverage-v8": "^4.0.18",
+    "@eslint/js": "^9.39.3",
+    "@types/node": "^25.3.2",
+    "eslint": "^9.39.3",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.8.1",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.56.1",
+    "vitest": "^4.0.18"
+  }
+}

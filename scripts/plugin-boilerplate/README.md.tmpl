@@ -1,0 +1,66 @@
+# {{PLUGIN_NAME}}
+
+A plugin for [Vienna](https://github.com/tryvienna/desktop) — a local-first,
+provider-agnostic desktop IDE for orchestrating AI coding agents.
+
+<!-- One-sentence description of what this plugin does. -->
+
+## Install
+
+From inside Vienna:
+
+1. Open the plugins drawer (⌘⇧P → "Install plugin")
+2. Paste `{{PLUGIN_REPO_URL}}` or search for `{{PLUGIN_NAME}}` in the registry
+3. Grant the permissions it requests
+
+Or install via `vcli`:
+
+```bash
+vcli plugin install {{PLUGIN_REPO_URL}}
+```
+
+## What it does
+
+<!-- List the concrete capabilities this plugin adds. Keep it outcome-focused. -->
+
+-
+-
+-
+
+## Permissions
+
+<!-- Explain what the plugin asks to read/write. Users should be able to
+audit this before installing. -->
+
+-
+-
+
+## Configuration
+
+<!-- Per-workstream or per-project settings, auth (OAuth vs token), env
+vars, etc. Include a minimal example. -->
+
+## Development
+
+```bash
+git clone {{PLUGIN_REPO_URL}}
+cd {{PLUGIN_DIR_NAME}}
+pnpm install
+pnpm dev     # launches inside Vienna if --dev-plugin is set
+pnpm test
+pnpm typecheck
+```
+
+See [Vienna's plugin author guide][author-guide] for the full development
+workflow, SDK reference, and contribution guidelines.
+
+[author-guide]: https://github.com/tryvienna/desktop/blob/main/skills/plugin-dev/SKILL.md
+
+## Contributing
+
+Contributions welcome. Please follow the general Vienna contribution
+process: see [CONTRIBUTING.md](./CONTRIBUTING.md).
+
+## License
+
+[Apache 2.0](./LICENSE). Copyright 2026 Vienna Contributors.

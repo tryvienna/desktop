@@ -1,0 +1,48 @@
+name: Feature request
+description: Suggest an improvement or a new capability.
+title: "[Feature]: "
+labels: ["feature", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the suggestion. The best feature requests describe the
+        *problem* first — the solution often becomes obvious once the problem
+        is clear.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem are you trying to solve?
+      description: What are you doing today, and what's painful about it?
+      placeholder: I want to ... but Vienna doesn't let me because ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      description: If you have an idea for how to solve it, describe it. If not, leave blank.
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives you've considered
+      description: Other ways to solve the same problem, including workarounds.
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Screenshots, references to related tools, anything else that helps.
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I searched existing issues and discussions for a similar request
+          required: true
+        - label: I've read the project [ROADMAP](https://github.com/tryvienna/desktop/blob/main/ROADMAP.md) (if present)
+          required: false

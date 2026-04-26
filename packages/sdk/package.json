@@ -1,0 +1,109 @@
+{
+  "name": "@tryvienna/sdk",
+  "version": "0.1.7",
+  "description": "SDK for building Vienna plugins — define entities, integrations, and UI extensions",
+  "license": "Apache-2.0",
+  "author": "the Vienna contributors",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tryvienna/sdk.git"
+  },
+  "homepage": "https://tryvienna.dev/docs",
+  "bugs": {
+    "url": "https://github.com/tryvienna/sdk/issues"
+  },
+  "keywords": [
+    "vienna",
+    "plugin",
+    "sdk",
+    "entity",
+    "integration",
+    "graphql"
+  ],
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "type": "module",
+  "main": "./src/index.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./react": "./src/react/index.ts",
+    "./graphql": "./src/graphql/index.ts",
+    "./codegen": "./src/codegen.ts"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org",
+    "main": "./dist/index.js",
+    "types": "./dist/index.d.ts",
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.ts",
+        "import": "./dist/index.js"
+      },
+      "./react": {
+        "types": "./dist/react/index.d.ts",
+        "import": "./dist/react/index.js"
+      },
+      "./graphql": {
+        "types": "./dist/graphql/index.d.ts",
+        "import": "./dist/graphql/index.js"
+      },
+      "./codegen": {
+        "types": "./dist/codegen.d.ts",
+        "import": "./dist/codegen.js"
+      }
+    }
+  },
+  "scripts": {
+    "build": "tsup",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format:check": "prettier --check .",
+    "format": "prettier --write .",
+    "test": "pnpm run test:unit",
+    "test:unit": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "prepublishOnly": "pnpm run build"
+  },
+  "dependencies": {
+    "@apollo/client": "^3.13.8",
+    "@graphql-typed-document-node/core": "^3.2.0",
+    "graphql-tag": "^2.12.6",
+    "zod": "^3.25.67"
+  },
+  "peerDependencies": {
+    "graphql": ">=16.0.0",
+    "react": ">=18.0.0"
+  },
+  "peerDependenciesMeta": {
+    "graphql": {
+      "optional": true
+    },
+    "react": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.3",
+    "@testing-library/react": "^16.3.2",
+    "@types/node": "^25.3.2",
+    "@types/react": "^19.2.14",
+    "@vitest/coverage-v8": "^4.0.18",
+    "eslint": "^9.39.3",
+    "eslint-config-prettier": "^10.1.8",
+    "graphql": "^16.11.0",
+    "jsdom": "^28.1.0",
+    "prettier": "^3.8.1",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.56.1",
+    "vitest": "^4.0.18"
+  }
+}

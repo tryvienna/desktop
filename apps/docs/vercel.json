@@ -1,0 +1,13 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "npx vitepress build",
+  "outputDirectory": ".vitepress/dist",
+  "installCommand": "npm install vitepress vue",
+  "framework": "vitepress",
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/docs/_storybook/iframe", "destination": "/_storybook/iframe.html" },
+    { "source": "/_storybook/iframe", "destination": "/_storybook/iframe.html" },
+    { "source": "/docs/:path*", "destination": "/:path*" }
+  ]
+}

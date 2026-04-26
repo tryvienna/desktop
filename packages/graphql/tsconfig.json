@@ -1,0 +1,12 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src",
+    "emitDeclarationOnly": true,
+    "types": ["node"]
+  },
+  "include": ["src/**/*"],
+  "exclude": ["src/**/*.test.ts", "src/schema/print.ts", "src/schema/plugin-schemas.ts"],
+  "references": [{ "path": "../app-db" }, { "path": "../sdk" }]
+}

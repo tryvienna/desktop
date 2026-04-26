@@ -1,0 +1,113 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Getting Started/Icons" />
+
+# Icons
+
+`@tryvienna/ui` uses two icon systems: **lucide-react** for general UI icons and a built-in **FileTypeIcon** system for file/language-specific icons.
+
+## lucide-react
+
+The primary icon library. Import icons directly from `lucide-react`:
+
+```tsx
+import { Search, Settings, ChevronDown, Plus, X } from 'lucide-react';
+
+<Button>
+  <Plus size={16} />
+  New Item
+</Button>
+```
+
+### Sizing conventions
+
+| Context | Size | Example |
+|---|---|---|
+| Inline with small text | `12` | Status indicators |
+| Inline with body text | `14`–`16` | Button icons, menu items |
+| Standalone icon buttons | `16`–`18` | Toolbar actions |
+| Feature icons | `20`–`24` | Empty states, cards |
+
+### Common icons used in Vienna
+
+```tsx
+// Navigation
+import { ChevronDown, ChevronRight, ChevronLeft, ArrowLeft } from 'lucide-react';
+
+// Actions
+import { Plus, Pencil, Trash2, Copy, Download, Upload, Search } from 'lucide-react';
+
+// Status
+import { Check, X, AlertTriangle, Info, Loader2 } from 'lucide-react';
+
+// Content
+import { File, Folder, FolderOpen, Settings, MoreHorizontal } from 'lucide-react';
+```
+
+## FileTypeIcon
+
+A built-in icon component for rendering file-type-specific icons. Supports TypeScript, JavaScript, React, Python, Go, Rust, JSON, HTML, CSS, Markdown, Shell, SQL, and generic file/folder types.
+
+```tsx
+import { FileTypeIcon, getFileIconType } from '@tryvienna/ui';
+
+// By explicit type
+<FileTypeIcon type="typescript" size={16} />
+<FileTypeIcon type="python" size={16} />
+<FileTypeIcon type="folder" size={16} />
+
+// By filename
+const iconType = getFileIconType('package.json');
+<FileTypeIcon type={iconType} size={16} />
+```
+
+### Available file types
+
+| Type | Extensions |
+|---|---|
+| `typescript` | `.ts`, `.tsx`, `.d.ts` |
+| `javascript` | `.js`, `.jsx`, `.mjs`, `.cjs` |
+| `react` | `.tsx`, `.jsx` (when JSX detected) |
+| `python` | `.py`, `.pyw`, `.pyi` |
+| `go` | `.go` |
+| `rust` | `.rs` |
+| `json` | `.json`, `.jsonc`, `.json5` |
+| `html` | `.html`, `.htm` |
+| `css` | `.css`, `.scss`, `.sass`, `.less` |
+| `markdown` | `.md`, `.mdx` |
+| `shell` | `.sh`, `.bash`, `.zsh`, `.fish` |
+| `sql` | `.sql` |
+| `generic` | Everything else |
+| `folder` | Directories |
+| `folder-open` | Open directories |
+
+### Individual icon components
+
+You can also import specific file icons directly for custom compositions:
+
+```tsx
+import {
+  TypeScriptFileIcon,
+  PythonFileIcon,
+  GenericFileIcon,
+  FolderIcon,
+  FolderOpenIcon,
+} from '@tryvienna/ui';
+
+<TypeScriptFileIcon size={16} className="text-blue-500" />
+```
+
+## Icon color
+
+Icons inherit `currentColor` by default, so they match the surrounding text color. Override with `className` or `style`:
+
+```tsx
+// Inherits text color
+<Search size={16} />
+
+// Custom color via Tailwind
+<Search size={16} className="text-muted-foreground" />
+
+// Custom color via style
+<Search size={16} style={{ color: 'var(--text-accent)' }} />
+```

@@ -1,0 +1,13 @@
+diff --git a/dist/VitePlugin.js b/dist/VitePlugin.js
+index 19bcd7afdb49fb3dbdcf99c08de1872523a437f0..dc9c9300e0a05663e8a764c6fc4e619984110226 100644
+--- a/dist/VitePlugin.js
++++ b/dist/VitePlugin.js
+@@ -35,7 +35,7 @@ class VitePlugin extends plugin_base_1.PluginBase {
+                 this.exitHandler({ cleanup: true });
+             });
+             process.on('SIGINT', (_signal) => {
+-                this.exitHandler({ exit: true });
++                this.exitHandler({ cleanup: true, exit: true });
+             });
+         };
+         this.getHooks = () => {

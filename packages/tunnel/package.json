@@ -1,0 +1,42 @@
+{
+  "name": "@vienna/tunnel",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Self-hosted relay tunnel for remote GraphQL access",
+  "license": "Apache-2.0",
+  "author": "Vienna contributors",
+  "homepage": "https://tryvienna.dev/docs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tryvienna/desktop.git",
+    "directory": "packages/tunnel"
+  },
+  "bugs": {
+    "url": "https://github.com/tryvienna/desktop/issues"
+  },
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./main": "./src/main.ts"
+  },
+  "scripts": {
+    "build": "tsc --build",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "test": "pnpm run test:unit",
+    "test:unit": "vitest run"
+  },
+  "dependencies": {
+    "@vienna/logger": "workspace:*",
+    "graphql": "^16.11.0",
+    "zod": "^3.25.67"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.3",
+    "@types/node": "^25.3.2",
+    "eslint": "^9.39.3",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.56.1",
+    "vitest": "^4.0.18"
+  }
+}

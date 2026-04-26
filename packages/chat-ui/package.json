@@ -1,0 +1,74 @@
+{
+  "name": "@vienna/chat-ui",
+  "version": "0.0.1",
+  "private": true,
+  "description": "React chat components and Zustand store for Vienna agent UI",
+  "license": "Apache-2.0",
+  "author": "Vienna contributors",
+  "homepage": "https://tryvienna.dev/docs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tryvienna/desktop.git",
+    "directory": "packages/chat-ui"
+  },
+  "bugs": {
+    "url": "https://github.com/tryvienna/desktop/issues"
+  },
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./store": "./src/store/index.ts",
+    "./theme.css": "./src/theme/chat-ui.css"
+  },
+  "scripts": {
+    "build": "tsc --build",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format:check": "prettier --check .",
+    "format": "prettier --write .",
+    "test": "pnpm run test:unit",
+    "test:unit": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
+  },
+  "dependencies": {
+    "@vienna/agent-core": "workspace:*",
+    "@vienna/file-search": "workspace:*",
+    "@vienna/logger": "workspace:*",
+    "@tryvienna/ui": "workspace:*",
+    "class-variance-authority": "^0.7.1",
+    "framer-motion": "^12.34.3",
+    "highlight.js": "^11.11.1",
+    "lucide-react": "^0.575.0",
+    "react": "^19.2.4",
+    "zod": "^3.25.67",
+    "zustand": "^5.0.5"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.3",
+    "@testing-library/react": "^16.3.2",
+    "@storybook/addon-essentials": "^8.6.14",
+    "@storybook/react": "^8.6.14",
+    "@storybook/react-vite": "^8.6.14",
+    "@storybook/test": "^8.6.14",
+    "@tailwindcss/vite": "^4.2.1",
+    "@types/node": "^25.3.2",
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.2.3",
+    "@vitest/coverage-v8": "^4.0.18",
+    "eslint": "^9.39.3",
+    "eslint-config-prettier": "^10.1.8",
+    "prettier": "^3.8.1",
+    "storybook": "^8.6.14",
+    "tailwindcss": "^4.2.1",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.56.1",
+    "vitest": "^4.0.18"
+  },
+  "peerDependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  }
+}

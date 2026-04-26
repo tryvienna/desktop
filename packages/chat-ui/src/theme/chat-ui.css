@@ -1,0 +1,18 @@
+/**
+ * @vienna/chat-ui — Stylesheet
+ *
+ * Imports the shared Vienna design system from @tryvienna/ui.
+ * All design tokens, color palettes, typography, spacing, and keyframes
+ * are defined in @tryvienna/ui/styles.css — this file only adds the
+ * Tailwind source directive for chat-ui's own components.
+ *
+ * @ai-context
+ * - Do NOT add design tokens here — they belong in @tryvienna/ui/styles.css
+ * - Do NOT duplicate @theme registrations
+ * - Only add chat-ui-specific @source directives or @layer overrides
+ */
+
+@import '@tryvienna/ui/styles.css';
+@import '../components/tools/bulk-review/diff-view.css';
+
+@source "../**/*.{ts,tsx}";

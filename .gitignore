@@ -1,0 +1,60 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build output
+dist/
+out/
+.vite/
+.generated/
+.next/
+*.tsbuildinfo
+storybook-static/
+
+# Stale TS build artifacts emitted into src/ (output belongs in dist/)
+# Hand-written .d.ts files (e.g. canvas.d.ts) must be force-added with git add -f
+packages/sdk/src/**/*.js
+packages/sdk/src/**/*.js.map
+packages/sdk/src/**/*.d.ts
+packages/sdk/src/**/*.d.ts.map
+
+# npm lockfile (project uses pnpm)
+package-lock.json
+
+# Test output
+coverage/
+test-results/
+playwright-report/
+
+# Turbo
+.turbo/
+
+# Environment
+.env
+.env.local
+.env.*.local
+.env.build
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+
+# Logs
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Release drafts
+CHANGELOG-DRAFT.md
+
+# Claude Code
+.claude/
+.worktrees/
+.vercel

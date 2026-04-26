@@ -1,0 +1,63 @@
+{
+  "name": "@vienna/electron-profiler",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Resource observability dashboard for Electron applications",
+  "license": "Apache-2.0",
+  "author": "Vienna contributors",
+  "homepage": "https://tryvienna.dev/docs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tryvienna/desktop.git",
+    "directory": "apps/electron-profiler"
+  },
+  "bugs": {
+    "url": "https://github.com/tryvienna/desktop/issues"
+  },
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently -n server,vite -c blue,green \"tsx watch server/index.ts\" \"vite\"",
+    "dev:server": "tsx watch server/index.ts",
+    "dev:client": "vite",
+    "build": "vite build",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format:check": "prettier --check .",
+    "format": "prettier --write ."
+  },
+  "dependencies": {
+    "@vienna/profiler-sdk": "workspace:*",
+    "better-sqlite3": "^12.6.2",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.0",
+    "express": "^5.1.0",
+    "lucide-react": "^0.563.0",
+    "radix-ui": "^1.4.3",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
+    "recharts": "2.15.4",
+    "tailwind-merge": "^3.3.0",
+    "wouter": "^3.9.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.3",
+    "@tailwindcss/vite": "^4.1.18",
+    "@types/better-sqlite3": "^7.6.8",
+    "@types/express": "^5.0.0",
+    "@types/node": "^25.3.2",
+    "@types/react": "^19.2.7",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.2",
+    "concurrently": "^9.0.0",
+    "eslint": "^9.39.3",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "prettier": "^3.8.1",
+    "tailwindcss": "^4.1.18",
+    "tsx": "^4.21.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.56.1",
+    "vite": "^7.3.1"
+  }
+}

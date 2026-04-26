@@ -1,0 +1,70 @@
+name: Bug report
+description: Something in this plugin is broken or behaves unexpectedly.
+title: "[Bug]: "
+labels: ["bug", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for filing a bug. Security-sensitive issues should go to
+        `security@tryvienna.dev` instead — see the main Vienna
+        [SECURITY.md](https://github.com/tryvienna/desktop/blob/main/SECURITY.md).
+
+  - type: input
+    id: plugin-version
+    attributes:
+      label: Plugin version
+      placeholder: "v0.1.0"
+    validations:
+      required: true
+
+  - type: input
+    id: vienna-version
+    attributes:
+      label: Vienna version
+      placeholder: "v0.1.0"
+    validations:
+      required: true
+
+  - type: input
+    id: os-version
+    attributes:
+      label: macOS version
+      placeholder: "macOS 14.4"
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect?
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs (redact anything sensitive)
+      render: text
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I searched existing issues and this isn't a duplicate
+          required: true

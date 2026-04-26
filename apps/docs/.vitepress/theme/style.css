@@ -1,0 +1,454 @@
+/**
+ * Vienna Brand Theme for VitePress
+ *
+ * 1999-style, HackerNews-inspired design.
+ * Warm brand accent, Verdana, minimal ornamentation.
+ */
+
+/* ------------------------------------------------------------------ */
+/* Light Mode                                                          */
+/* ------------------------------------------------------------------ */
+
+:root {
+  /* --- Fonts --- */
+  --vp-font-family-base: Verdana, Geneva, sans-serif;
+  --vp-font-family-mono: ui-monospace, 'SF Mono', SFMono-Regular, Menlo,
+    Consolas, 'Liberation Mono', monospace;
+
+  /* --- Brand (warm yellow-green, matches web app) --- */
+  --vp-c-brand-1: oklch(75.4% 0.12 83.6);
+  --vp-c-brand-2: oklch(65% 0.12 83.6);
+  --vp-c-brand-3: oklch(42% 0.07 87.2);
+  --vp-c-brand-soft: oklch(97.9% 0.02 92.5);
+
+  /* --- Backgrounds --- */
+  --vp-c-bg: #ffffff;
+  --vp-c-bg-alt: #f9f9f9;
+  --vp-c-bg-elv: #ffffff;
+  --vp-c-bg-soft: rgba(245, 245, 245, 0.6);
+
+  /* --- Text --- */
+  --vp-c-text-1: #1a1a1a;
+  --vp-c-text-2: #737373;
+  --vp-c-text-3: rgba(115, 115, 115, 0.78);
+
+  /* --- Borders --- */
+  --vp-c-divider: #e5e5e5;
+  --vp-c-divider-light: rgba(229, 229, 229, 0.6);
+  --vp-c-gutter: #f5f5f5;
+
+  /* --- Neutral --- */
+  --vp-c-default-1: #737373;
+  --vp-c-default-2: #525252;
+  --vp-c-default-3: #404040;
+  --vp-c-default-soft: rgba(115, 115, 115, 0.12);
+
+  /* --- Tip (green) --- */
+  --vp-c-tip-1: #059669;
+  --vp-c-tip-2: #047857;
+  --vp-c-tip-3: #065F46;
+  --vp-c-tip-soft: rgba(5, 150, 105, 0.12);
+
+  /* --- Warning (amber) --- */
+  --vp-c-warning-1: #D97706;
+  --vp-c-warning-2: #B45309;
+  --vp-c-warning-3: #92400E;
+  --vp-c-warning-soft: rgba(217, 119, 6, 0.12);
+
+  /* --- Danger (red) --- */
+  --vp-c-danger-1: #cc0000;
+  --vp-c-danger-2: #b91c1c;
+  --vp-c-danger-3: #991b1b;
+  --vp-c-danger-soft: rgba(204, 0, 0, 0.12);
+
+  /* --- Important (dark brand) --- */
+  --vp-c-important-1: oklch(50.9% 0.09 87.3);
+  --vp-c-important-2: oklch(42% 0.07 87.2);
+  --vp-c-important-3: oklch(35% 0.06 87.2);
+  --vp-c-important-soft: oklch(97.9% 0.02 92.5);
+
+  /* --- Note (muted) --- */
+  --vp-c-note-1: #525252;
+  --vp-c-note-2: #404040;
+  --vp-c-note-3: #1a1a1a;
+  --vp-c-note-soft: rgba(82, 82, 82, 0.12);
+
+  /* --- Shadows (none — flat design) --- */
+  --vp-shadow-1: none;
+  --vp-shadow-2: none;
+  --vp-shadow-3: none;
+  --vp-shadow-4: none;
+  --vp-shadow-5: none;
+}
+
+/* ------------------------------------------------------------------ */
+/* Dark Mode                                                           */
+/* ------------------------------------------------------------------ */
+
+.dark {
+  /* --- Brand (slightly brighter for dark bg) --- */
+  --vp-c-brand-1: oklch(80% 0.12 83.6);
+  --vp-c-brand-2: oklch(75.4% 0.12 83.6);
+  --vp-c-brand-3: oklch(90% 0.08 83.6);
+  --vp-c-brand-soft: rgba(180, 160, 80, 0.14);
+
+  /* --- Backgrounds --- */
+  --vp-c-bg: #1a1a1a;
+  --vp-c-bg-alt: #222222;
+  --vp-c-bg-elv: #2a2a2a;
+  --vp-c-bg-soft: rgba(42, 42, 42, 0.6);
+
+  /* --- Text --- */
+  --vp-c-text-1: #e5e5e5;
+  --vp-c-text-2: rgba(200, 200, 200, 0.78);
+  --vp-c-text-3: rgba(160, 160, 160, 0.78);
+
+  /* --- Borders --- */
+  --vp-c-divider: #333333;
+  --vp-c-divider-light: rgba(51, 51, 51, 0.6);
+  --vp-c-gutter: #222222;
+
+  /* --- Neutral --- */
+  --vp-c-default-1: #a0a0a0;
+  --vp-c-default-2: #737373;
+  --vp-c-default-3: #525252;
+  --vp-c-default-soft: rgba(160, 160, 160, 0.12);
+
+  /* --- Tip --- */
+  --vp-c-tip-1: #34D399;
+  --vp-c-tip-2: #10B981;
+  --vp-c-tip-3: #059669;
+  --vp-c-tip-soft: rgba(52, 211, 153, 0.14);
+
+  /* --- Warning --- */
+  --vp-c-warning-1: #FBBF24;
+  --vp-c-warning-2: #F59E0B;
+  --vp-c-warning-3: #D97706;
+  --vp-c-warning-soft: rgba(251, 191, 36, 0.14);
+
+  /* --- Danger --- */
+  --vp-c-danger-1: #EF4444;
+  --vp-c-danger-2: #DC2626;
+  --vp-c-danger-3: #B91C1C;
+  --vp-c-danger-soft: rgba(239, 68, 68, 0.14);
+
+  /* --- Important --- */
+  --vp-c-important-1: oklch(80% 0.09 87.3);
+  --vp-c-important-2: oklch(70% 0.09 87.3);
+  --vp-c-important-3: oklch(60% 0.09 87.3);
+  --vp-c-important-soft: rgba(180, 160, 80, 0.14);
+
+  /* --- Note --- */
+  --vp-c-note-1: #a0a0a0;
+  --vp-c-note-2: #737373;
+  --vp-c-note-3: #e5e5e5;
+  --vp-c-note-soft: rgba(160, 160, 160, 0.14);
+
+  /* --- Shadows (none) --- */
+  --vp-shadow-1: none;
+  --vp-shadow-2: none;
+  --vp-shadow-3: none;
+  --vp-shadow-4: none;
+  --vp-shadow-5: none;
+}
+
+/* ------------------------------------------------------------------ */
+/* Hero Section                                                        */
+/* ------------------------------------------------------------------ */
+
+:root {
+  --vp-home-hero-name-color: #1a1a1a;
+  --vp-home-hero-name-background: none;
+  --vp-home-hero-image-background-image: none;
+  --vp-home-hero-image-filter: none;
+}
+
+.dark {
+  --vp-home-hero-name-color: #e5e5e5;
+  --vp-home-hero-name-background: none;
+  --vp-home-hero-image-background-image: none;
+}
+
+/* ------------------------------------------------------------------ */
+/* Base Typography                                                     */
+/* ------------------------------------------------------------------ */
+
+.vp-doc {
+  font-size: 13.333px;
+  line-height: 1.5;
+}
+
+.vp-doc h1 {
+  font-weight: bold;
+  letter-spacing: -0.02em;
+}
+
+.vp-doc h2 {
+  font-weight: bold;
+  letter-spacing: normal;
+  padding-top: 24px;
+}
+
+.vp-doc h3 {
+  font-weight: bold;
+  letter-spacing: normal;
+}
+
+/* ------------------------------------------------------------------ */
+/* Navigation                                                          */
+/* ------------------------------------------------------------------ */
+
+.VPNav {
+  border-bottom-color: var(--vp-c-divider) !important;
+}
+
+.VPNavBar .title {
+  font-weight: bold !important;
+  letter-spacing: -0.02em;
+  font-size: 14px;
+}
+
+/* Warm brand background for nav — matches web app header */
+.VPNav .VPNavBar.has-sidebar .content {
+  background-color: var(--vp-c-bg) !important;
+}
+
+/* ------------------------------------------------------------------ */
+/* Sidebar                                                             */
+/* ------------------------------------------------------------------ */
+
+.VPSidebar {
+  border-right-color: var(--vp-c-divider) !important;
+  font-size: 13px;
+}
+
+.VPSidebarItem.is-active > .item > .indicator {
+  background-color: var(--vp-c-brand-1) !important;
+}
+
+/* ------------------------------------------------------------------ */
+/* Content                                                             */
+/* ------------------------------------------------------------------ */
+
+/* Inline code */
+.vp-doc :not(pre) > code {
+  background-color: var(--vp-c-brand-soft);
+  border: 1px solid var(--vp-c-divider-light);
+  color: var(--vp-c-text-1);
+  font-size: 12px;
+  padding: 1px 5px;
+  border-radius: 2px;
+}
+
+.dark .vp-doc :not(pre) > code {
+  color: var(--vp-c-text-1);
+  background-color: var(--vp-c-bg-alt);
+}
+
+/* Code blocks — light mode: light bg, dark text */
+.vp-doc div[class*='language-'] {
+  background-color: #f5f5f5 !important;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 4px;
+}
+
+.vp-doc div[class*='language-'] code {
+  color: #1a1a1a;
+}
+
+/* Code blocks — dark mode: dark bg, light text */
+.dark .vp-doc div[class*='language-'] {
+  background-color: #111111 !important;
+  border-color: var(--vp-c-divider);
+}
+
+.dark .vp-doc div[class*='language-'] code {
+  color: #e5e5e5;
+}
+
+/* Line numbers muted */
+.vp-doc div[class*='language-'] .line-numbers {
+  color: var(--vp-c-text-3);
+}
+
+/* ------------------------------------------------------------------ */
+/* Custom Blocks                                                       */
+/* ------------------------------------------------------------------ */
+
+.vp-doc .custom-block {
+  border-radius: 2px;
+  font-size: 13px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Feature Cards (Home Page)                                           */
+/* ------------------------------------------------------------------ */
+
+.VPFeature {
+  border: 1px solid var(--vp-c-divider) !important;
+  border-radius: 2px !important;
+  transition: opacity 0.15s;
+}
+
+.VPFeature:hover {
+  opacity: 0.85;
+}
+
+/* ------------------------------------------------------------------ */
+/* Buttons                                                             */
+/* ------------------------------------------------------------------ */
+
+.VPButton.brand {
+  background-color: var(--vp-c-brand-1) !important;
+  border-color: var(--vp-c-brand-1) !important;
+  color: #000 !important;
+  border-radius: 2px !important;
+  font-weight: bold !important;
+  transition: opacity 0.15s;
+}
+
+.VPButton.brand:hover {
+  opacity: 0.85;
+  background-color: var(--vp-c-brand-1) !important;
+  border-color: var(--vp-c-brand-1) !important;
+}
+
+.VPButton.alt {
+  background-color: transparent !important;
+  border: 1px solid var(--vp-c-divider) !important;
+  color: var(--vp-c-text-1) !important;
+  border-radius: 2px !important;
+  font-weight: normal !important;
+  transition: border-color 0.15s;
+}
+
+.VPButton.alt:hover {
+  border-color: var(--vp-c-brand-1) !important;
+}
+
+/* ------------------------------------------------------------------ */
+/* Search                                                              */
+/* ------------------------------------------------------------------ */
+
+.DocSearch {
+  --docsearch-primary-color: var(--vp-c-brand-1) !important;
+}
+
+/* ------------------------------------------------------------------ */
+/* Tables                                                              */
+/* ------------------------------------------------------------------ */
+
+.vp-doc table {
+  border-radius: 2px;
+  overflow: hidden;
+  border: 1px solid var(--vp-c-divider);
+  font-size: 13px;
+}
+
+.vp-doc tr {
+  border-color: var(--vp-c-divider-light);
+}
+
+.vp-doc th {
+  background-color: var(--vp-c-bg-alt);
+  font-weight: bold;
+  font-size: 12px;
+  color: var(--vp-c-text-2);
+}
+
+.vp-doc td {
+  font-size: 13px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Scrollbar                                                           */
+/* ------------------------------------------------------------------ */
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(107, 114, 128, 0.25);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(107, 114, 128, 0.45);
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(156, 163, 175, 0.2);
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(156, 163, 175, 0.35);
+}
+
+/* ------------------------------------------------------------------ */
+/* Badge                                                               */
+/* ------------------------------------------------------------------ */
+
+.VPBadge.tip {
+  background-color: var(--vp-c-tip-soft);
+  color: var(--vp-c-tip-1);
+  border-radius: 2px;
+}
+
+.VPBadge.warning {
+  background-color: var(--vp-c-warning-soft);
+  color: var(--vp-c-warning-1);
+  border-radius: 2px;
+}
+
+.VPBadge.danger {
+  background-color: var(--vp-c-danger-soft);
+  color: var(--vp-c-danger-1);
+  border-radius: 2px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Prev/Next Links                                                     */
+/* ------------------------------------------------------------------ */
+
+.pager-link {
+  border-radius: 2px !important;
+  transition: border-color 0.15s !important;
+}
+
+.pager-link:hover {
+  border-color: var(--vp-c-brand-1) !important;
+}
+
+/* ------------------------------------------------------------------ */
+/* Links — match web app style                                         */
+/* ------------------------------------------------------------------ */
+
+.vp-doc a {
+  color: var(--vp-c-text-1);
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.15s;
+}
+
+.vp-doc a:hover {
+  color: var(--vp-c-brand-3);
+}
+
+/* ------------------------------------------------------------------ */
+/* 404 Page                                                            */
+/* ------------------------------------------------------------------ */
+
+.NotFound .link {
+  color: var(--vp-c-text-1);
+  text-decoration: underline;
+}
+
+.NotFound .link:hover {
+  color: var(--vp-c-brand-3);
+}

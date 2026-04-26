@@ -1,0 +1,2252 @@
+type ActivateSkillPayload {
+  body: String
+}
+
+type AddEntityToolEntryPayload {
+  alreadyExists: Boolean
+  entry: EntityToolEntry
+}
+
+type AddGroupDirectoryPayload {
+  group: WorkstreamGroup
+}
+
+type AddProjectDirectoryPayload {
+  directory: ProjectDirectory
+  project: Project
+}
+
+input AddRegistryInput {
+  name: String!
+  priority: Int
+  url: String!
+}
+
+type AddRegistryPayload {
+  registry: Registry
+}
+
+type AddWorkstreamDirectoryPayload {
+  workstream: Workstream
+}
+
+type AddWorkstreamReferencePayload {
+  workstream: Workstream
+}
+
+type AddWorkstreamToGroupPayload {
+  workstream: Workstream
+}
+
+"""Advanced/developer settings"""
+type AdvancedSettings {
+  developerMode: Boolean
+  focusMonitorEnabled: Boolean
+  focusMonitorIntervalMs: Int
+  profilerEnabled: Boolean
+}
+
+"""AI and model settings"""
+type AiSettings {
+  autoCompactPercent: Int
+  cliPath: String
+  cliSetupComplete: Boolean
+  defaultModel: String
+}
+
+"""UI appearance settings"""
+type AppearanceSettings {
+  compactMode: Boolean
+  fontSize: Int
+  theme: Theme
+  zoomLevel: Float
+}
+
+type ApplyTagPayload {
+  pipelineRunId: String
+  workstreamTag: WorkstreamTag
+}
+
+type ArchiveInboxItemPayload {
+  inboxItem: InboxItem
+}
+
+type ArchiveWorkstreamGroupPayload {
+  group: WorkstreamGroup
+}
+
+type ArchiveWorkstreamPayload {
+  workstream: Workstream
+}
+
+"""A per-directory branch override with optional worktree"""
+type BranchSelection {
+  baseBranch: String
+  branch: String
+  createdAt: DateTime
+  directoryPath: String
+  id: ID
+  updatedAt: DateTime
+  workstreamId: ID
+  worktreePath: String
+}
+
+type ClearWorkstreamConversationPayload {
+  workstream: Workstream
+}
+
+"""A command available in the command palette"""
+type Command {
+  body: String
+  category: CommandCategory
+  description: String
+  disabled: Boolean
+  disabledReason: String
+  hasFlow: Boolean
+  id: String
+  keywords: [String!]
+  title: String
+}
+
+enum CommandCategory {
+  claude
+  developer
+  help
+  navigation
+  settings
+  skill
+  workstream
+}
+
+"""Action to perform in the renderer after command execution"""
+type CommandResultAction {
+  message: String
+  path: String
+  text: String
+  type: String
+  variant: String
+}
+
+type CompactWorkstreamConversationPayload {
+  workstream: Workstream
+}
+
+type CompleteWorkstreamTagPayload {
+  alreadyTerminal: Boolean
+  workstreamTag: WorkstreamTag
+}
+
+"""A conflict between project configurations"""
+type ConfigConflict {
+  conflicts: [ConflictEntry!]
+  contentId: String
+  contentType: String
+}
+
+"""Where a configuration value originated"""
+type ConfigSource {
+  detail: String
+  tier: ConfigTier
+}
+
+enum ConfigTier {
+  global
+  project
+  user
+}
+
+"""One side of a configuration conflict between projects"""
+type ConflictEntry {
+  directory: String
+  reason: String
+  requirement: String
+}
+
+"""
+State of a content item (plugin/skill/quick action) after tier resolution
+"""
+type ContentItemState {
+  enabled: Boolean
+  enabledSource: ConfigSource
+  id: String
+  installed: Boolean
+  projectReason: String
+  projectRequirement: ContentRequirement
+  projectSource: String
+}
+
+"""
+A content profile — a curated bundle of skills, plugins, quick actions, and settings
+"""
+type ContentProfile {
+  directory: String
+  isActive: Boolean
+  isDefault: Boolean
+  isFork: Boolean
+  metadata: ProfileMetadata
+  name: String
+}
+
+enum ContentRequirement {
+  forbidden
+  recommended
+  required
+}
+
+input CreateProjectInput {
+  name: String!
+}
+
+input CreateRoutineInput {
+  description: String
+  name: String!
+  preferences: JSON
+  projectId: ID!
+  prompt: String!
+  schedule: RoutineScheduleInput!
+}
+
+type CreateRoutinePayload {
+  routine: Routine
+}
+
+input CreateTagInput {
+  color: String
+  dependsOn: [String!]
+  instructions: String!
+  maxDepth: Int
+  name: String!
+  projectId: ID!
+  spawnWorkstream: Boolean
+  worktreeMode: WorktreeMode
+}
+
+type CreateTagPayload {
+  tag: Tag
+}
+
+"""
+Input for creating a new task. Use labelIds (array of label ID strings) to assign labels.
+"""
+input CreateTaskInput {
+  """self or workstream"""
+  assigneeType: TaskAssigneeType
+
+  """Required when assigneeType is workstream"""
+  assigneeWorkstreamId: String
+
+  """Markdown description"""
+  description: String
+
+  """ISO date string (YYYY-MM-DD)"""
+  dueDate: String
+
+  """
+  Array of TaskLabel IDs to assign. Use taskLabels query to list available labels.
+  """
+  labelIds: [String!]
+
+  """Array of entity URIs (e.g. @vienna//github_issue/123)"""
+  links: [String!]
+
+  """Parent task ID for subtasks"""
+  parentId: String
+
+  """Defaults to none"""
+  priority: TaskPriority
+  projectId: ID!
+
+  """Defaults to todo"""
+  status: TaskStatus
+  title: String!
+}
+
+input CreateWorkstreamGroupInput {
+  emoji: String
+  name: String!
+  projectId: ID!
+}
+
+type CreateWorkstreamGroupPayload {
+  group: WorkstreamGroup
+}
+
+input CreateWorkstreamInput {
+  """Base branch for worktrees (e.g. "main"). Uses repo default if omitted"""
+  baseBranch: String
+
+  """
+  Custom branch name for worktrees (auto-generated from title if omitted)
+  """
+  branchName: String
+
+  """If true, create git worktrees for each inherited directory"""
+  createWorktrees: Boolean
+  groupId: ID
+
+  """
+  Name of the group (alternative to groupId — resolved by case-insensitive match)
+  """
+  groupName: String
+  model: String
+  projectId: ID!
+  title: String!
+}
+
+type CreateWorkstreamPayload {
+  workstream: Workstream
+
+  """
+  Results of worktree creation (only present when createWorktrees was true)
+  """
+  worktrees: [WorktreeResult!]
+}
+
+"""ISO 8601 date-time string or unix timestamp (ms)"""
+scalar DateTime
+
+type DeleteInboxItemPayload {
+  success: Boolean
+}
+
+type DeleteRoutinePayload {
+  routine: Routine
+}
+
+type DeleteTagPayload {
+  tag: Tag
+}
+
+type DeleteTaskPayload {
+  success: Boolean
+}
+
+type DeleteWorkstreamGroupPayload {
+  group: WorkstreamGroup
+}
+
+type DeleteWorkstreamPayload {
+  workstream: Workstream
+}
+
+"""A directory with its branch selection and computed effective path"""
+type DirectoryWithBranchInfo {
+  baseBranch: String
+  branch: String
+  effectivePath: String
+  isInherited: Boolean
+  label: String
+  path: String
+  worktreePath: String
+}
+
+"""The effective configuration after resolving all tiers"""
+type EffectiveConfig {
+  conflicts: [ConfigConflict!]
+  missingRequirements: [MissingRequirement!]
+  plugins: [ContentItemState!]
+  quickActions: [ContentItemState!]
+  settings: [ResolvedSetting!]
+  skills: [ContentItemState!]
+}
+
+"""Generic entity resolved from the entity registry"""
+type Entity {
+  createdAt: DateTime
+  description: String
+  id: ID
+  title: String
+  type: String
+  updatedAt: DateTime
+  uri: String
+}
+
+"""A group of mutations that operate on a specific entity type"""
+type EntityMutationGroup {
+  entityDisplayName: String
+  entityType: String
+  mutations: [MutationCatalogEntry!]
+}
+
+"""A saved entity URI for dev debugging"""
+type EntityToolEntry {
+  addedAt: String
+  uri: String
+}
+
+"""Metadata about a registered entity type"""
+type EntityTypeInfo {
+  display: JSON
+  displayName: String
+  icon: String
+  source: String
+  type: String
+  uriExample: String
+}
+
+"""Result of executing a command"""
+type ExecuteCommandPayload {
+  action: CommandResultAction
+  error: String
+  success: Boolean
+}
+
+type ExecuteInboxActionPayload {
+  success: Boolean
+}
+
+input ForkWorkstreamInput {
+  """If true, create new git worktrees for the forked workstream"""
+  createWorktrees: Boolean
+
+  """
+  Vienna message ID at the fork point. If omitted, forks at the latest message.
+  """
+  messageId: ID
+
+  """
+  JSONL uuid from the Claude Code session file at the fork point. If omitted, copies the entire provider session.
+  """
+  providerUuid: String
+
+  """ID of the workstream to fork from"""
+  sourceWorkstreamId: ID!
+
+  """Title for the forked workstream (defaults to 'Fork of <source title>')"""
+  title: String
+}
+
+type ForkWorkstreamPayload {
+  workstream: Workstream
+
+  """
+  Results of worktree creation (only present when createWorktrees was true)
+  """
+  worktrees: [WorktreeResult!]
+}
+
+"""A git branch"""
+type GitBranch {
+  hasWorktree: Boolean
+  isCurrent: Boolean
+  isRemote: Boolean
+  name: String
+  worktreePath: String
+}
+
+"""A git commit"""
+type GitCommit {
+  author: String
+
+  """Commit date as epoch milliseconds"""
+  date: Float
+  hash: String
+  message: String
+  shortHash: String
+}
+
+"""Summary of git diff with line counts and changed files"""
+type GitDiffSummary {
+  additions: Int
+  deletions: Int
+  files: [GitStatusFile!]
+}
+
+"""A file with git status information"""
+type GitStatusFile {
+  additions: Int
+  deletions: Int
+  oldPath: String
+  path: String
+  staged: Boolean
+  status: String
+}
+
+"""
+A default branch selection at the group level — inherited by workstreams on creation
+"""
+type GroupBranchSelection {
+  baseBranch: String
+  branch: String
+  createdAt: DateTime
+  directoryPath: String
+  groupId: ID
+  id: ID
+  updatedAt: DateTime
+}
+
+"""A shared working directory at the group level"""
+type GroupDirectory {
+  createdAt: DateTime
+  groupId: ID
+  id: ID
+  label: String
+  path: String
+}
+
+"""
+An entity linked to a workstream group — inherited by all workstreams in the group
+"""
+type GroupLinkedEntity {
+  contextOverride: String
+  createdAt: DateTime
+  entityTitle: String
+  entityType: String
+  entityUri: String
+  groupId: ID
+}
+
+"""Metadata for an image attached to a user message"""
+input ImageAttachmentInput {
+  mimeType: String!
+  name: String!
+  previewUrl: String!
+  size: Int!
+}
+
+"""Base64-encoded image content block for the Claude API"""
+input ImageContentBlockInput {
+  data: String!
+  mediaType: String!
+}
+
+"""A single action button on an inbox item"""
+type InboxAction {
+  id: String
+  label: String
+  payload: JSON
+}
+
+"""A single action button to attach to an inbox item."""
+input InboxActionInput {
+  """Registered action handler ID"""
+  id: String!
+
+  """Human-readable button label"""
+  label: String!
+
+  """Optional payload passed to the handler"""
+  payload: JSON
+}
+
+"""A notification or action item in the global inbox"""
+type InboxItem {
+  actions: [InboxAction!]
+  archived: Boolean
+  createdAt: DateTime
+  ctaLabel: String
+  description: String
+  entityUri: String
+  icon: String
+  id: ID
+  read: Boolean
+  source: String
+  title: String
+  updatedAt: DateTime
+}
+
+type InstallPluginPayload {
+  plugin: InstalledPlugin
+}
+
+type InstallSkillPayload {
+  skill: InstalledSkill
+}
+
+"""A plugin installed on disk from a registry or GitHub repo"""
+type InstalledPlugin {
+  author: String
+  category: String
+  description: String
+  enabled: Boolean
+
+  """Whether a newer version is available in the registry"""
+  hasUpdate: Boolean
+  icon: String
+  id: ID
+  installDate: String
+  name: String
+  path: String
+  registry: String
+  registryVersion: String
+  source: PluginSource
+  sourceRef: String
+  tags: [String!]
+  version: String
+}
+
+"""A skill installed on disk from a registry or GitHub repo"""
+type InstalledSkill {
+  author: String
+  category: String
+  description: String
+  enabled: Boolean
+
+  """Whether a newer version is available in the registry"""
+  hasUpdate: Boolean
+  icon: String
+  id: ID
+  installDate: String
+  lastUsed: String
+  name: String
+  path: String
+  pinned: Boolean
+  registry: String
+  registryVersion: String
+  source: SkillSource
+  sourceRef: String
+  tags: [String!]
+  useCount: Int
+  version: String
+}
+
+"""Metadata about a registered integration"""
+type IntegrationInfo {
+  displayName: String
+  icon: String
+  id: String
+}
+
+type InterruptWorkstreamAgentPayload {
+  workstream: Workstream
+}
+
+"""Arbitrary JSON value"""
+scalar JSON
+
+type LinkGroupEntityPayload {
+  group: WorkstreamGroup
+}
+
+type LinkWorkstreamEntityPayload {
+  workstream: Workstream
+}
+
+"""Status of an active LSP server instance"""
+type LspServerStatus {
+  """Number of documents currently open in this server"""
+  openDocuments: Int
+
+  """The project root directory this server manages"""
+  projectRoot: String
+
+  """Server lifecycle state (stopped, starting, ready, error)"""
+  state: String
+}
+
+type MarkAllInboxItemsReadPayload {
+  count: Int
+}
+
+type MarkInboxItemReadPayload {
+  inboxItem: InboxItem
+}
+
+"""A required content item that is not installed or enabled"""
+type MissingRequirement {
+  contentId: String
+  contentType: String
+  projectDirectory: String
+  reason: String
+  type: MissingRequirementType
+}
+
+enum MissingRequirementType {
+  disabled
+  not_installed
+}
+
+type Mutation {
+  """Read a skill's SKILL.md body for one-shot prompt injection"""
+  activateSkill(skillId: String!): ActivateSkillPayload
+
+  """Add an entity URI to the dev entity tool"""
+  addEntityToolEntry(uri: String!): AddEntityToolEntryPayload
+
+  """
+  Add a shared directory to a workstream group (cascades to member workstreams)
+  """
+  addGroupDirectory(groupId: ID!, label: String, path: String!): AddGroupDirectoryPayload
+
+  """
+  Add a directory to a project. Cascades to all non-archived workstreams.
+  """
+  addProjectDirectory(label: String, path: String!, projectId: ID!): AddProjectDirectoryPayload
+  addRegistry(input: AddRegistryInput!): AddRegistryPayload
+
+  """Add a working directory to a workstream"""
+  addWorkstreamDirectory(label: String, path: String!, workstreamId: ID!): AddWorkstreamDirectoryPayload
+
+  """Add an entity reference to a workstream (auto-detected or agent-added)"""
+  addWorkstreamReference(entityTitle: String, entityType: String!, entityUri: String!, externalUrl: String, workstreamId: ID!): AddWorkstreamReferencePayload
+
+  """Move a workstream into a group"""
+  addWorkstreamToGroup(groupId: ID!, workstreamId: ID!): AddWorkstreamToGroupPayload
+
+  """
+  Copy a template's rules as a scoped permission policy for a workstream or group
+  """
+  applyPermissionTemplate(scopeId: String!, scopeType: PermissionScopeType!, templateId: ID!): Boolean
+
+  """Apply a tag to a workstream (snapshots definition, starts pipeline)"""
+  applyTagToWorkstream(tagName: String!, workstreamId: ID!): ApplyTagPayload
+  archiveInboxItem(id: ID!): ArchiveInboxItemPayload
+
+  """Archive a workstream"""
+  archiveWorkstream(id: ID!): ArchiveWorkstreamPayload
+
+  """Archive a workstream group and all its workstreams"""
+  archiveWorkstreamGroup(id: ID!): ArchiveWorkstreamGroupPayload
+
+  """Clear conversation history and stop the agent"""
+  clearWorkstreamConversation(id: ID!): ClearWorkstreamConversationPayload
+
+  """Trigger context compaction for a workstream"""
+  compactWorkstreamConversation(id: ID!, instructions: String): CompactWorkstreamConversationPayload
+
+  """
+  Update the execution status of a tag on a workstream (completed or failed). Advances the DAG pipeline and propagates status to source workstream for delegated tags.
+  """
+  completeWorkstreamTag(error: String, status: WorkstreamTagCompletionStatus!, tagName: String!, workstreamId: ID!): CompleteWorkstreamTagPayload
+
+  """Create a new empty content profile"""
+  createContentProfile(name: String!): ContentProfile
+
+  """Create a new permission template"""
+  createPermissionTemplate(description: String, name: String!, rules: [PermissionRuleConfigInput!]!): PermissionTemplate
+
+  """Create a new project"""
+  createProject(input: CreateProjectInput!): Project
+  createRoutine(input: CreateRoutineInput!): CreateRoutinePayload
+
+  """Create a new tag in a project (stored in JSON file)"""
+  createTag(input: CreateTagInput!): CreateTagPayload
+
+  """Create a new task. Returns the created task with labels resolved."""
+  createTask(input: CreateTaskInput!): TaskPayload
+
+  """
+  Create a task label for categorizing tasks. Use the returned label ID with createTask/updateTask labelIds.
+  """
+  createTaskLabel(color: String!, name: String!, projectId: ID!): TaskLabelPayload
+
+  """
+  Create a new workstream in a project. Optionally resolve group by name, and create git worktrees for inherited directories.
+  """
+  createWorkstream(input: CreateWorkstreamInput!): CreateWorkstreamPayload
+
+  """Create a new workstream group in a project"""
+  createWorkstreamGroup(input: CreateWorkstreamGroupInput!): CreateWorkstreamGroupPayload
+
+  """Delete a content profile (cannot delete default or active)"""
+  deleteContentProfile(name: String!): Boolean
+  deleteInboxItem(id: ID!): DeleteInboxItemPayload
+
+  """Delete permission overrides for a scope"""
+  deletePermissionPolicy(scopeId: String!, scopeType: PermissionScopeType!): Boolean
+
+  """Delete a permission template"""
+  deletePermissionTemplate(id: ID!): Boolean
+
+  """Delete a project and all its workstreams"""
+  deleteProject(id: ID!): Boolean
+
+  """Delete a routine and return it for cache eviction"""
+  deleteRoutine(id: ID!): DeleteRoutinePayload
+
+  """Delete a tag from the project scope (does not affect snapshots)"""
+  deleteTag(projectId: ID!, tagName: String!): DeleteTagPayload
+
+  """Delete a task and its subtasks."""
+  deleteTask(id: ID!): DeleteTaskPayload
+
+  """Delete a task label. Removes it from all tasks."""
+  deleteTaskLabel(id: ID!): DeleteTaskPayload
+
+  """Permanently delete a workstream and return it for cache eviction"""
+  deleteWorkstream(id: ID!): DeleteWorkstreamPayload
+
+  """Delete a workstream group and all its workstreams permanently."""
+  deleteWorkstreamGroup(id: ID!): DeleteWorkstreamGroupPayload
+
+  """Execute a command by ID"""
+  executeCommand(args: JSON, commandId: String!): ExecuteCommandPayload
+  executeInboxAction(actionId: String!, payload: JSON): ExecuteInboxActionPayload
+
+  """Fork a content profile by cloning a git repository"""
+  forkContentProfile(gitUrl: String!, name: String): ContentProfile
+
+  """
+  Fork a workstream at a specific message, creating a new workstream with conversation context up to that point. If messageId is omitted, forks at the latest message (copies entire conversation).
+  """
+  forkWorkstream(input: ForkWorkstreamInput!): ForkWorkstreamPayload
+  installPlugin(pluginId: String!): InstallPluginPayload
+  installSkill(destination: String, skillId: String!): InstallSkillPayload
+
+  """Interrupt the agent current generation"""
+  interruptWorkstreamAgent(id: ID!): InterruptWorkstreamAgentPayload
+
+  """Link an entity to a workstream group (inherited by all workstreams)"""
+  linkGroupEntity(entityTitle: String, entityType: String!, entityUri: String!, groupId: ID!): LinkGroupEntityPayload
+
+  """Link an entity to a workstream as persistent context"""
+  linkWorkstreamEntity(entityTitle: String, entityType: String!, entityUri: String!, workstreamId: ID!): LinkWorkstreamEntityPayload
+
+  """
+  Load older event history for a workstream before a cursor (scroll-back pagination)
+  """
+  loadMoreWorkstreamHistory(beforeEventId: Int!, id: ID!, limit: Int): ReplayHistoryPayload
+  markAllInboxItemsRead: MarkAllInboxItemsReadPayload
+  markInboxItemRead(id: ID!): MarkInboxItemReadPayload
+  pauseRoutine(id: ID!): PauseRoutinePayload
+
+  """Pin a workstream to the top of the list"""
+  pinWorkstream(id: ID!): PinWorkstreamPayload
+
+  """Pin a workstream group to the top of the nav"""
+  pinWorkstreamGroup(id: ID!): PinWorkstreamGroupPayload
+
+  """Promote a reference to a linked entity (links + removes reference)"""
+  promoteWorkstreamReference(entityTitle: String, entityType: String!, entityUri: String!, workstreamId: ID!): PromoteWorkstreamReferencePayload
+  pushInboxItem(input: PushInboxItemInput!): PushInboxItemPayload
+
+  """
+  Remove a branch selection for a directory. If removeWorktree is true, the associated worktree will be cleaned up.
+  """
+  removeBranchSelection(directoryPath: String!, removeWorktree: Boolean = false, workstreamId: ID!): RemoveBranchSelectionPayload
+
+  """Remove an entity URI from the dev entity tool"""
+  removeEntityToolEntry(uri: String!): RemoveEntityToolEntryPayload
+
+  """Remove a default branch selection for a group directory"""
+  removeGroupBranchSelection(directoryPath: String!, groupId: ID!): RemoveGroupBranchSelectionPayload
+
+  """
+  Remove a shared directory from a workstream group (cascades inherited copies)
+  """
+  removeGroupDirectory(groupId: ID!, path: String!): RemoveGroupDirectoryPayload
+
+  """
+  Remove a directory from a project. Cascades removal to inherited copies and branch selections in all workstreams.
+  """
+  removeProjectDirectory(path: String!, projectId: ID!): RemoveProjectDirectoryPayload
+  removeRegistry(id: ID!): RemoveRegistryPayload
+
+  """Remove a tag from a workstream"""
+  removeTagFromWorkstream(tagName: String!, workstreamId: ID!): RemoveTagPayload
+
+  """
+  Remove a working directory from a workstream (also removes its branch selection and optional worktree)
+  """
+  removeWorkstreamDirectory(path: String!, removeWorktree: Boolean = false, workstreamId: ID!): RemoveWorkstreamDirectoryPayload
+
+  """Remove a workstream from its group (ungroup)"""
+  removeWorkstreamFromGroup(workstreamId: ID!): RemoveWorkstreamFromGroupPayload
+
+  """Remove (dismiss) an entity reference from a workstream"""
+  removeWorkstreamReference(entityUri: String!, workstreamId: ID!): RemoveWorkstreamReferencePayload
+
+  """Replay event history for a workstream (events stream via IPC)"""
+  replayWorkstreamHistory(id: ID!): ReplayHistoryPayload
+
+  """Re-scan .claude/commands directories for Claude custom commands"""
+  rescanClaudeCommands: Boolean
+
+  """Respond to a tool permission request"""
+  respondWorkstreamPermission(requestId: String!, response: PermissionResponseInput!, workstreamId: ID!): RespondWorkstreamPermissionPayload
+
+  """Restart the agent for a workstream"""
+  restartWorkstreamAgent(id: ID!): RestartWorkstreamAgentPayload
+  resumeRoutine(id: ID!): ResumeRoutinePayload
+
+  """Revoke a permission rule for a workstream agent"""
+  revokePermissionRule(scope: PermissionRuleScope!, toolName: String!, workstreamId: ID!): RevokePermissionRulePayload
+
+  """
+  Rewind a workstream conversation to a specific point, restoring files and forgetting subsequent messages
+  """
+  rewindWorkstreamConversation(eventId: Int!, id: ID!, role: String): RewindWorkstreamConversationPayload
+
+  """Trigger immediate execution of a routine"""
+  runRoutineNow(id: ID!): RunRoutineNowPayload
+
+  """Send a message to a workstream agent (auto-starts if needed)"""
+  sendWorkstreamMessage(imageAttachments: [ImageAttachmentInput!], imageContentBlocks: [ImageContentBlockInput!], text: String!, workstreamId: ID!): SendWorkstreamMessagePayload
+
+  """
+  Set or update a branch selection for a directory. If createWorktree is true and gitOps is available, a worktree will be created automatically.
+  """
+  setBranchSelection(baseBranch: String, branch: String!, createWorktree: Boolean = false, directoryPath: String!, workstreamId: ID!, worktreePath: String): SetBranchSelectionPayload
+
+  """Set or update a default branch selection for a group directory"""
+  setGroupBranchSelection(baseBranch: String, branch: String!, directoryPath: String!, groupId: ID!): SetGroupBranchSelectionPayload
+
+  """Override the auto-generated context for a linked entity"""
+  setLinkedEntityContextOverride(contextOverride: String, entityUri: String!, workstreamId: ID!): SetLinkedEntityContextOverridePayload
+
+  """Set permission overrides for a project, group, or workstream scope"""
+  setPermissionPolicy(rules: [PermissionRuleConfigInput!]!, scopeId: String!, scopeType: PermissionScopeType!): PermissionPolicy
+
+  """Set which workstream is visible to the user (null to clear)"""
+  setWorkstreamInFocus(id: ID): SetWorkstreamInFocusPayload
+
+  """Stop the agent for a workstream"""
+  stopWorkstreamAgent(id: ID!): StopWorkstreamAgentPayload
+
+  """Switch to a different content profile"""
+  switchContentProfile(name: String!): Boolean
+
+  """Switch the model for a workstream (persists + restarts agent)"""
+  switchWorkstreamModel(id: ID!, model: String!): SwitchWorkstreamModelPayload
+
+  """Re-scan .claude directories for local skills"""
+  syncLocalSkills: Boolean
+
+  """Trigger a sync of all enabled registries"""
+  syncRegistries: SyncRegistriesPayload
+  togglePluginEnabled(enabled: Boolean!, pluginId: String!): TogglePluginPayload
+  toggleSkillEnabled(enabled: Boolean!, skillId: String!): ToggleSkillPayload
+  toggleSkillPinned(pinned: Boolean!, skillId: String!): ToggleSkillPayload
+
+  """Restore an archived workstream"""
+  unarchiveWorkstream(id: ID!): UnarchiveWorkstreamPayload
+  uninstallPlugin(pluginId: String!): UninstallPluginPayload
+  uninstallSkill(skillId: String!): UninstallSkillPayload
+
+  """Remove a linked entity from a workstream group"""
+  unlinkGroupEntity(entityUri: String!, groupId: ID!): UnlinkGroupEntityPayload
+
+  """Remove a linked entity from a workstream"""
+  unlinkWorkstreamEntity(entityUri: String!, workstreamId: ID!): UnlinkWorkstreamEntityPayload
+
+  """Unpin a workstream"""
+  unpinWorkstream(id: ID!): UnpinWorkstreamPayload
+
+  """Unpin a workstream group"""
+  unpinWorkstreamGroup(id: ID!): UnpinWorkstreamGroupPayload
+
+  """Update advanced/developer settings"""
+  updateAdvancedSettings(input: UpdateAdvancedSettingsInput!): Settings
+
+  """Update AI settings (default model, CLI path)"""
+  updateAiSettings(input: UpdateAiSettingsInput!): Settings
+
+  """Update appearance settings (theme, font size, compact mode)"""
+  updateAppearanceSettings(input: UpdateAppearanceSettingsInput!): Settings
+
+  """Update a permission template"""
+  updatePermissionTemplate(description: String, id: ID!, name: String, rules: [PermissionRuleConfigInput!]): PermissionTemplate
+
+  """Update global permission settings (presets, rules)"""
+  updatePermissionsSettings(input: UpdatePermissionsSettingsInput!): Settings
+  updatePlugin(pluginId: String!): UpdatePluginPayload
+
+  """Update a project"""
+  updateProject(id: ID!, input: UpdateProjectInput!): Project
+  updateRegistry(id: ID!, input: UpdateRegistryInput!): UpdateRegistryPayload
+  updateRoutine(id: ID!, input: UpdateRoutineInput!): UpdateRoutinePayload
+
+  """
+  Replace all settings from a raw JSON string. Validates against Zod schemas.
+  """
+  updateSettingsRaw(json: String!): Settings
+  updateSkill(skillId: String!): UpdateSkillPayload
+
+  """Update a tag by name within a project"""
+  updateTag(input: UpdateTagInput!, projectId: ID!, tagName: String!): UpdateTagPayload
+
+  """
+  Update a task. Pass only the fields you want to change. Use labelIds (array) to set labels.
+  """
+  updateTask(id: ID!, input: UpdateTaskInput!): TaskPayload
+
+  """Update a task label name or color."""
+  updateTaskLabel(
+    """Hex color (e.g. #3B82F6)"""
+    color: String
+    id: ID!
+    name: String
+  ): TaskLabelPayload
+
+  """Update a workstream"""
+  updateWorkstream(id: ID!, input: UpdateWorkstreamInput!): UpdateWorkstreamPayload
+
+  """Update a workstream group"""
+  updateWorkstreamGroup(id: ID!, input: UpdateWorkstreamGroupInput!): UpdateWorkstreamGroupPayload
+}
+
+"""A GraphQL mutation associated with an entity type"""
+type MutationCatalogEntry {
+  description: String
+  entityType: String
+  name: String
+}
+
+type PauseRoutinePayload {
+  routine: Routine
+}
+
+enum PermissionBehavior {
+  allow
+  deny
+}
+
+enum PermissionBehaviorSetting {
+  allow
+  ask
+}
+
+"""Scoped permission override for a project, group, or workstream"""
+type PermissionPolicy {
+  createdAt: DateTime
+  id: ID
+  rules: [PermissionRuleConfig!]
+  scopeId: String
+  scopeType: PermissionScopeType
+  templateId: String
+  updatedAt: DateTime
+}
+
+enum PermissionPreset {
+  autonomous
+  balanced
+  custom
+  restrictive
+}
+
+"""Response to a tool permission request"""
+input PermissionResponseInput {
+  behavior: PermissionBehavior!
+  directories: [String!]
+  message: String
+  scope: PermissionScope!
+  updatedInput: JSON
+}
+
+"""A single permission rule configuration"""
+type PermissionRuleConfig {
+  behavior: PermissionBehaviorSetting
+  entityType: String
+  tool: String
+}
+
+input PermissionRuleConfigInput {
+  behavior: PermissionBehaviorSetting!
+  entityType: String
+  tool: String!
+}
+
+enum PermissionRuleScope {
+  persistent
+  session
+}
+
+enum PermissionScope {
+  once
+  permanent
+  session
+}
+
+enum PermissionScopeType {
+  group
+  project
+  workstream
+}
+
+"""A reusable named set of permission rules"""
+type PermissionTemplate {
+  createdAt: DateTime
+  description: String
+  id: ID
+  name: String
+  rules: [PermissionRuleConfig!]
+  updatedAt: DateTime
+}
+
+"""Container for all permission templates"""
+type PermissionTemplatesSettings {
+  templates: [PermissionTemplate!]
+}
+
+"""Global permission settings"""
+type PermissionsSettings {
+  activePreset: PermissionPreset
+  rules: [PermissionRuleConfig!]
+}
+
+type PinWorkstreamGroupPayload {
+  group: WorkstreamGroup
+}
+
+type PinWorkstreamPayload {
+  workstream: Workstream
+}
+
+enum PluginSource {
+  github
+  inline
+}
+
+"""Version update information for an installed plugin"""
+type PluginUpdate {
+  id: String
+  installedVersion: String
+  registryVersion: String
+}
+
+"""Author of a content profile"""
+type ProfileAuthor {
+  name: String
+  url: String
+}
+
+"""Identity metadata for a shareable content profile"""
+type ProfileMetadata {
+  author: ProfileAuthor
+  description: String
+  displayName: String
+  icon: String
+  sourceUrl: String
+  tags: [String!]
+}
+
+"""Top-level container that groups workstreams"""
+type Project {
+  createdAt: DateTime
+
+  """Project-level working directories (inherited by all workstreams)"""
+  directories: [ProjectDirectory!]
+  id: ID
+  name: String
+  updatedAt: DateTime
+
+  """Non-archived workstreams in this project"""
+  workstreams: [Workstream!]
+}
+
+"""A project-level working directory that is inherited by all workstreams"""
+type ProjectDirectory {
+  createdAt: DateTime
+  id: ID
+  label: String
+  path: String
+  projectId: ID
+}
+
+type PromoteWorkstreamReferencePayload {
+  workstream: Workstream
+}
+
+"""
+Input for pushing a new item to the inbox. The source is set automatically from the caller identity — plugins get their plugin ID, core gets "Vienna".
+"""
+input PushInboxItemInput {
+  """Action buttons to display on the item"""
+  actions: [InboxActionInput!]
+
+  """Optional label for a call-to-action button (e.g. "Open", "View")"""
+  ctaLabel: String
+
+  """Optional longer text or markdown"""
+  description: String
+
+  """
+  Vienna entity URI for deep linking (e.g. @vienna//gh_pr/owner/repo/123)
+  """
+  entityUri: String
+
+  """Optional SVG icon string"""
+  icon: String
+
+  """Display title for the inbox item"""
+  title: String!
+}
+
+type PushInboxItemPayload {
+  inboxItem: InboxItem
+}
+
+type Query {
+  """Get the currently active content profile"""
+  activeContentProfile: ContentProfile
+
+  """List routines with active status"""
+  activeRoutines: [Routine!]
+
+  """List archived workstreams for a project"""
+  archivedWorkstreams(projectId: ID!): [Workstream!]
+
+  """Get branch selections for a workstream"""
+  branchSelections(workstreamId: ID!): [BranchSelection!]
+
+  """Get all commands, optionally filtered by category"""
+  commands(categoryFilter: String): [Command!]
+
+  """List all content profiles"""
+  contentProfiles: [ContentProfile!]
+
+  """Get directories with computed branch/worktree info for a workstream"""
+  directoriesWithBranchInfo(workstreamId: ID!): [DirectoryWithBranchInfo!]
+
+  """
+  Get the effective configuration for a project, resolved across all tiers.
+  """
+  effectiveConfig(projectId: ID!): EffectiveConfig
+
+  """List entities of a specific type with optional filters"""
+  entities(filters: JSON, limit: Int = 20, query: String, type: String!): [Entity!]
+
+  """Resolve a single entity by its URI"""
+  entity(uri: String!): Entity
+
+  """List all GraphQL mutations grouped by the entity type they operate on"""
+  entityMutationCatalog: [EntityMutationGroup!]
+
+  """Search across all (or specified) entity types"""
+  entitySearch(limit: Int = 20, query: String!, types: [String!]): [Entity!]
+
+  """List all saved entity tool entries (dev debugging)"""
+  entityToolEntries: [EntityToolEntry!]
+
+  """List all registered entity types with their metadata"""
+  entityTypes: [EntityTypeInfo!]
+
+  """Get aggregate unified diff for all branch changes vs base"""
+  gitBranchDiff(base: String!, path: String!): String
+
+  """List branches for a git repository"""
+  gitBranches(path: String!): [GitBranch!]
+
+  """Get unified diff for a single commit"""
+  gitCommitDiff(hash: String!, path: String!): String
+
+  """Get commit log for commits on current branch not on base ref"""
+  gitCommitLog(base: String!, path: String!): [GitCommit!]
+
+  """Get the current branch for a git repository"""
+  gitCurrentBranch(path: String!): String
+
+  """Get the default branch for a git repository (main/master)"""
+  gitDefaultBranch(path: String!): String
+
+  """Get diff stat summary for branch changes vs a base ref (merge-base)"""
+  gitDiffSummary(base: String!, path: String!): GitDiffSummary
+
+  """
+  Get file content at a specific git ref, or current working tree if ref is null
+  """
+  gitFileAtRef(filePath: String!, path: String!, ref: String): String
+
+  """
+  Get unified diff for a single file (tries branch diff, working tree, then untracked)
+  """
+  gitFileDiff(base: String, filePath: String!, path: String!): String
+
+  """Get changed files in the working tree (staged + unstaged + untracked)"""
+  gitStatusFiles(path: String!): [GitStatusFile!]
+
+  """
+  Get unified diff for all working tree changes (staged + unstaged) vs HEAD
+  """
+  gitWorkingTreeDiff(path: String!): String
+
+  """Get diff stat for working tree changes (unstaged + staged + untracked)"""
+  gitWorkingTreeSummary(path: String!): GitDiffSummary
+
+  """Get shared directories for a workstream group"""
+  groupDirectories(groupId: ID!): [GroupDirectory!]
+
+  """Get entities linked to a workstream group"""
+  groupLinkedEntities(groupId: ID!): [GroupLinkedEntity!]
+  inboxItems(includeArchived: Boolean, includeRead: Boolean, limit: Int, offset: Int): [InboxItem!]
+  inboxUnreadCount: Int
+
+  """List all installed plugins"""
+  installedPlugins: [InstalledPlugin!]
+
+  """List all installed skills"""
+  installedSkills: [InstalledSkill!]
+
+  """List all registered integrations"""
+  integrations: [IntegrationInfo!]
+
+  """Check if a path is inside a git repository"""
+  isGitRepo(path: String!): Boolean
+
+  """Check if the agent is running for a workstream"""
+  isWorkstreamAgentRunning(id: ID!): Boolean
+
+  """List all active LSP server instances and their status"""
+  lspServers: [LspServerStatus!]
+  permissionPolicy(scopeId: String!, scopeType: PermissionScopeType!): PermissionPolicy
+
+  """Get a permission template by ID"""
+  permissionTemplate(id: ID!): PermissionTemplate
+
+  """List all permission templates"""
+  permissionTemplates: [PermissionTemplate!]
+
+  """Check for version updates on installed plugins"""
+  pluginUpdates: [PluginUpdate!]
+
+  """Get a project by ID"""
+  project(id: ID!): Project
+
+  """List all directories for a project"""
+  projectDirectories(projectId: ID!): [ProjectDirectory!]
+
+  """List all projects"""
+  projects: [Project!]
+
+  """List all registered events in the plugin event system"""
+  registeredEvents: [RegisteredEvent!]
+
+  """List all registries"""
+  registries: [Registry!]
+  registry(id: ID!): Registry
+
+  """Default plugin IDs from the highest-priority registry"""
+  registryPluginDefaults: [String!]
+
+  """List all available plugins from enabled registries"""
+  registryPlugins: [RegistryPlugin!]
+
+  """Default quick action IDs from the highest-priority registry"""
+  registryQuickActionDefaults: [String!]
+
+  """Merged quick actions from all enabled registries (priority-ordered)"""
+  registryQuickActions: [QuickAction!]
+
+  """Default skill IDs from the highest-priority registry"""
+  registrySkillDefaults: [String!]
+
+  """List all available skills from enabled registries"""
+  registrySkills: [RegistrySkill!]
+
+  """Default verification actions from the highest-priority registry"""
+  registryVerificationActionDefaults: [VerificationAction!]
+
+  """
+  Merged verification actions from all enabled registries (priority-ordered)
+  """
+  registryVerificationActions: [VerificationAction!]
+
+  """
+  Resolve context text for a linked entity. Uses the entity definition's resolveContext if available, otherwise builds generic context from metadata.
+  """
+  resolveLinkedEntityContext(entityUri: String!): String
+  resolvedParentPermissions(scopeId: String!, scopeType: PermissionScopeType!): [PermissionRuleConfig!]
+  resolvedPermissions(workstreamId: ID!): [PermissionRuleConfig!]
+  routine(id: ID!): Routine
+
+  """Get a routine by its associated workstream ID"""
+  routineByWorkstreamId(workstreamId: ID!): Routine
+
+  """Get the most recent run for a routine"""
+  routineLatestRun(routineId: ID!): RoutineRun
+  routineRunHistory(limit: Int, routineId: ID!): [RoutineRun!]
+
+  """List all routines"""
+  routines: [Routine!]
+
+  """List routines belonging to a project (via their workstream)"""
+  routinesByProject(projectId: ID!): [Routine!]
+
+  """Get all app settings (with defaults for unset values)"""
+  settings: Settings
+
+  """Check for version updates on installed skills"""
+  skillUpdates: [SkillUpdate!]
+
+  """Find a tag by name within a project (searches merged set)"""
+  tagByName(name: String!, projectId: ID!): Tag
+
+  """List all merged tags for a project (global + project overrides)"""
+  tagsByProject(projectId: ID!): [Tag!]
+
+  """Get a task by ID"""
+  task(id: ID!): Task
+
+  """List task labels for a project"""
+  taskLabels(projectId: ID!): [TaskLabel!]
+
+  """
+  List tasks for a project with optional filters. All filter args are optional — omit to list all tasks.
+  """
+  tasks(
+    """Filter by assignee type"""
+    assigneeType: TaskAssigneeType
+
+    """Filter by a single label ID (returns tasks that have this label)"""
+    labelId: String
+
+    """Max number of tasks to return"""
+    limit: Int
+
+    """
+    Filter by parent task ID (returns subtasks). Pass null to get only top-level tasks.
+    """
+    parentId: String
+
+    """Filter by priority"""
+    priority: TaskPriority
+    projectId: ID!
+
+    """Text search across title, identifier, and description"""
+    query: String
+
+    """Filter by status"""
+    status: TaskStatus
+  ): [Task!]
+
+  """
+  Get user-sent message history for a workstream (newest first). Used to populate the chat input's up-arrow message history and supports cursor-based pagination for preemptive loading.
+  """
+  userMessageHistory(
+    """Cursor: only return messages with event ID less than this value"""
+    before: Int
+
+    """Maximum number of messages to return (default 10)"""
+    limit: Int = 10
+    workstreamId: ID!
+  ): UserMessageHistoryConnection
+
+  """Get a workstream by ID"""
+  workstream(id: ID!): Workstream
+
+  """Get working directories for a workstream"""
+  workstreamDirectories(workstreamId: ID!): [WorkstreamDirectory!]
+
+  """Get a workstream group by ID"""
+  workstreamGroup(id: ID!): WorkstreamGroup
+
+  """List workstream groups for a project (pinned first)"""
+  workstreamGroupsByProject(projectId: ID!): [WorkstreamGroup!]
+
+  """
+  Get entities linked to a workstream (includes group-inherited entities)
+  """
+  workstreamLinkedEntities(workstreamId: ID!): [WorkstreamLinkedEntity!]
+
+  """
+  Get entity references detected in or added to a workstream conversation
+  """
+  workstreamReferences(workstreamId: ID!): [WorkstreamReference!]
+
+  """Get all tags applied to a workstream (snapshot data)"""
+  workstreamTags(workstreamId: ID!): [WorkstreamTag!]
+
+  """
+  Find all workstreams linked to a given entity URI (includes group-inherited links)
+  """
+  workstreamsByEntity(entityUri: String!): [WorkstreamEntityLink!]
+
+  """List non-archived workstreams for a project (pinned first)"""
+  workstreamsByProject(projectId: ID!): [Workstream!]
+}
+
+"""A quick action provided by a registry"""
+type QuickAction {
+  author: QuickActionAuthor
+  description: String
+  icon: String
+  id: String
+  label: String
+  options: [QuickActionOption!]
+  registry: String
+  tags: [String!]
+}
+
+"""Author of a quick action"""
+type QuickActionAuthor {
+  name: String
+}
+
+"""A selectable option within a quick action"""
+type QuickActionOption {
+  id: String
+  label: String
+  prompt: String
+}
+
+"""A registered event in the plugin event system"""
+type RegisteredEvent {
+  """Human-readable description of when this event fires"""
+  description: String
+
+  """Number of listeners currently registered for this event"""
+  listenerCount: Int
+
+  """Local event name without plugin prefix"""
+  localName: String
+
+  """Plugin ID that owns/defined this event"""
+  ownerPluginId: String
+
+  """Human-readable payload schema description"""
+  payloadSchema: String
+
+  """Fully-qualified event name (e.g. "core.reference.detected")"""
+  qualifiedName: String
+}
+
+"""
+A Git-backed registry providing shareable content (quick actions, etc.)
+"""
+type Registry {
+  createdAt: DateTime
+  enabled: Boolean
+  id: ID
+  name: String
+  priority: Int
+  source: RegistrySource
+  updatedAt: DateTime
+  url: String
+}
+
+"""A plugin available in a registry (not yet installed)"""
+type RegistryPlugin {
+  author: RegistryPluginAuthor
+  canvases: RegistryPluginCanvases
+  category: String
+  description: String
+  icon: String
+  id: String
+  name: String
+  registry: String
+  repo: String
+  source: PluginSource
+  tags: [String!]
+  version: String
+}
+
+"""Author of a registry plugin"""
+type RegistryPluginAuthor {
+  name: String
+}
+
+"""Canvas support flags for a registry plugin"""
+type RegistryPluginCanvases {
+  drawer: Boolean
+  feed: Boolean
+  menuBar: Boolean
+  navSidebar: Boolean
+  workstreamWidget: Boolean
+}
+
+"""A skill available in a registry (not yet installed)"""
+type RegistrySkill {
+  author: RegistrySkillAuthor
+  category: String
+  description: String
+  icon: String
+  id: String
+  name: String
+  registry: String
+  repo: String
+  source: SkillSource
+  tags: [String!]
+  version: String
+}
+
+"""Author of a registry skill"""
+type RegistrySkillAuthor {
+  name: String
+}
+
+enum RegistrySource {
+  local
+  organization
+  project
+}
+
+type RemoveBranchSelectionPayload {
+  removed: Boolean
+}
+
+type RemoveEntityToolEntryPayload {
+  success: Boolean
+}
+
+type RemoveGroupBranchSelectionPayload {
+  group: WorkstreamGroup
+}
+
+type RemoveGroupDirectoryPayload {
+  group: WorkstreamGroup
+}
+
+type RemoveProjectDirectoryPayload {
+  project: Project
+  removed: Boolean
+}
+
+type RemoveRegistryPayload {
+  registry: Registry
+}
+
+type RemoveTagPayload {
+  success: Boolean
+}
+
+type RemoveWorkstreamDirectoryPayload {
+  workstream: Workstream
+}
+
+type RemoveWorkstreamFromGroupPayload {
+  workstream: Workstream
+}
+
+type RemoveWorkstreamReferencePayload {
+  workstream: Workstream
+}
+
+type ReplayHistoryPayload {
+  hasMore: Boolean
+  oldestEventId: Int
+  workstream: Workstream
+}
+
+"""A setting resolved across all configuration tiers"""
+type ResolvedSetting {
+  key: String
+  recommendation: SettingRecommendation
+  source: ConfigSource
+  value: JSON
+}
+
+type RespondWorkstreamPermissionPayload {
+  workstream: Workstream
+}
+
+type RestartWorkstreamAgentPayload {
+  workstream: Workstream
+}
+
+type ResumeRoutinePayload {
+  routine: Routine
+}
+
+type RevokePermissionRulePayload {
+  workstream: Workstream
+}
+
+type RewindWorkstreamConversationPayload {
+  workstream: Workstream
+}
+
+"""A scheduled workstream that runs on a cron or interval"""
+type Routine {
+  createdAt: DateTime
+  description: String
+  id: ID
+  lastRunAt: DateTime
+
+  """The most recent run record"""
+  latestRun: RoutineRun
+  name: String
+  nextRunAt: DateTime
+  preferences: JSON
+  prompt: String
+  runCount: Int
+
+  """Recent execution history"""
+  runs(limit: Int = 10): [RoutineRun!]
+  schedule: RoutineSchedule
+  status: RoutineStatus
+  updatedAt: DateTime
+
+  """The dedicated workstream for this routine"""
+  workstream: Workstream
+  workstreamId: String
+}
+
+"""A single execution record for a routine"""
+type RoutineRun {
+  completedAt: DateTime
+  createdAt: DateTime
+  error: String
+  id: ID
+  metadata: JSON
+  routineId: String
+  startedAt: DateTime
+  status: RoutineRunStatus
+  summary: String
+  triggeredBy: RoutineRunTriggeredBy
+}
+
+enum RoutineRunStatus {
+  completed
+  failed
+  pending
+  running
+  skipped
+}
+
+enum RoutineRunTriggeredBy {
+  manual
+  retry
+  schedule
+}
+
+"""Schedule configuration for a routine"""
+type RoutineSchedule {
+  expression: String
+  timezone: String
+  type: ScheduleType
+}
+
+input RoutineScheduleInput {
+  expression: String!
+  timezone: String
+  type: ScheduleType!
+}
+
+enum RoutineStatus {
+  active
+  disabled
+  paused
+}
+
+type RunRoutineNowPayload {
+  routine: Routine
+}
+
+enum ScheduleType {
+  cron
+  interval
+}
+
+type SendWorkstreamMessagePayload {
+  workstream: Workstream
+}
+
+type SetBranchSelectionPayload {
+  branchSelection: BranchSelection
+
+  """
+  Error if worktree creation failed (branch selection still saved without worktree)
+  """
+  worktreeError: String
+}
+
+type SetGroupBranchSelectionPayload {
+  group: WorkstreamGroup
+}
+
+type SetLinkedEntityContextOverridePayload {
+  workstream: Workstream
+}
+
+type SetWorkstreamInFocusPayload {
+  workstream: Workstream
+}
+
+"""A project-recommended setting value"""
+type SettingRecommendation {
+  reason: String
+  source: ConfigSource
+  value: JSON
+}
+
+"""App-level settings (all categories)"""
+type Settings {
+  advanced: AdvancedSettings
+  ai: AiSettings
+  appearance: AppearanceSettings
+  permissionTemplates: PermissionTemplatesSettings
+  permissions: PermissionsSettings
+}
+
+enum SkillSource {
+  github
+  inline
+  local
+}
+
+"""Version update information for an installed skill"""
+type SkillUpdate {
+  id: String
+  installedVersion: String
+  registryVersion: String
+}
+
+type StopWorkstreamAgentPayload {
+  workstream: Workstream
+}
+
+type SwitchWorkstreamModelPayload {
+  workstream: Workstream
+}
+
+type SyncRegistriesPayload {
+  synced: Int
+}
+
+"""A tag definition (from JSON file)"""
+type Tag {
+  color: String
+  dependsOn: [String!]
+  instructions: String
+  maxDepth: Int
+  name: String
+  spawnWorkstream: Boolean
+  worktreeMode: WorktreeMode
+}
+
+"""A project-scoped task with status, priority, and assignee"""
+type Task {
+  assigneeType: TaskAssigneeType
+  assigneeWorkstreamId: String
+  createdAt: DateTime
+  description: String
+  dueDate: String
+  id: ID
+  identifier: String
+
+  """Labels assigned to this task"""
+  labels: [TaskLabel!]
+  links: [String!]
+
+  """Parent task (if this is a subtask)"""
+  parent: Task
+  parentId: ID
+  priority: TaskPriority
+  projectId: ID
+  status: TaskStatus
+
+  """Child tasks of this task"""
+  subtasks: [Task!]
+  title: String
+  updatedAt: DateTime
+}
+
+enum TaskAssigneeType {
+  self
+  workstream
+}
+
+"""A color-coded label for categorizing tasks"""
+type TaskLabel {
+  color: String
+  createdAt: DateTime
+  id: ID
+  name: String
+  projectId: ID
+}
+
+type TaskLabelPayload {
+  label: TaskLabel
+}
+
+type TaskPayload {
+  task: Task
+}
+
+enum TaskPriority {
+  high
+  low
+  medium
+  none
+  urgent
+}
+
+enum TaskStatus {
+  backlog
+  canceled
+  done
+  in_progress
+  todo
+}
+
+enum Theme {
+  dark
+  light
+  system
+}
+
+type TogglePluginPayload {
+  plugin: InstalledPlugin
+}
+
+type ToggleSkillPayload {
+  skill: InstalledSkill
+}
+
+type UnarchiveWorkstreamPayload {
+  workstream: Workstream
+}
+
+type UninstallPluginPayload {
+  success: Boolean
+}
+
+type UninstallSkillPayload {
+  success: Boolean
+}
+
+type UnlinkGroupEntityPayload {
+  group: WorkstreamGroup
+}
+
+type UnlinkWorkstreamEntityPayload {
+  workstream: Workstream
+}
+
+type UnpinWorkstreamGroupPayload {
+  group: WorkstreamGroup
+}
+
+type UnpinWorkstreamPayload {
+  workstream: Workstream
+}
+
+input UpdateAdvancedSettingsInput {
+  developerMode: Boolean
+  focusMonitorEnabled: Boolean
+  focusMonitorIntervalMs: Int
+  profilerEnabled: Boolean
+}
+
+input UpdateAiSettingsInput {
+  autoCompactPercent: Int
+  cliPath: String
+  cliSetupComplete: Boolean
+  defaultModel: String
+}
+
+input UpdateAppearanceSettingsInput {
+  compactMode: Boolean
+  fontSize: Int
+  theme: Theme
+  zoomLevel: Float
+}
+
+input UpdatePermissionsSettingsInput {
+  activePreset: PermissionPreset
+  rules: [PermissionRuleConfigInput!]
+}
+
+type UpdatePluginPayload {
+  plugin: InstalledPlugin
+}
+
+input UpdateProjectInput {
+  name: String
+}
+
+input UpdateRegistryInput {
+  enabled: Boolean
+  priority: Int
+}
+
+type UpdateRegistryPayload {
+  registry: Registry
+}
+
+input UpdateRoutineInput {
+  description: String
+  name: String
+  preferences: JSON
+  prompt: String
+  schedule: RoutineScheduleInput
+}
+
+type UpdateRoutinePayload {
+  routine: Routine
+}
+
+type UpdateSkillPayload {
+  skill: InstalledSkill
+}
+
+input UpdateTagInput {
+  color: String
+  dependsOn: [String!]
+  instructions: String
+  maxDepth: Int
+  name: String
+  spawnWorkstream: Boolean
+  worktreeMode: WorktreeMode
+}
+
+type UpdateTagPayload {
+  tag: Tag
+}
+
+"""
+Input for updating a task. Use labelIds (array of label ID strings) to replace all assigned labels.
+"""
+input UpdateTaskInput {
+  """self or workstream"""
+  assigneeType: TaskAssigneeType
+
+  """Required when assigneeType is workstream"""
+  assigneeWorkstreamId: String
+
+  """Markdown description"""
+  description: String
+
+  """ISO date string (YYYY-MM-DD)"""
+  dueDate: String
+
+  """
+  Array of TaskLabel IDs — replaces all current labels. Use taskLabels query to list available labels.
+  """
+  labelIds: [String!]
+
+  """Array of entity URIs — replaces all current links"""
+  links: [String!]
+
+  """Parent task ID for subtasks"""
+  parentId: String
+  priority: TaskPriority
+  status: TaskStatus
+  title: String
+}
+
+input UpdateWorkstreamGroupInput {
+  autoCreateWorktrees: Boolean
+  emoji: String
+  isPinned: Boolean
+  name: String
+}
+
+type UpdateWorkstreamGroupPayload {
+  group: WorkstreamGroup
+}
+
+input UpdateWorkstreamInput {
+  groupId: ID
+  isPinned: Boolean
+  model: String
+  status: WorkstreamStatus
+  title: String
+}
+
+type UpdateWorkstreamPayload {
+  workstream: Workstream
+}
+
+"""Paginated user message history for a workstream"""
+type UserMessageHistoryConnection {
+  hasMore: Boolean
+  items: [UserMessageHistoryItem!]
+}
+
+"""A user-sent message extracted from the event log (for input history)"""
+type UserMessageHistoryItem {
+  eventId: Int
+  messageId: String
+  text: String
+  timestamp: DateTime
+}
+
+"""A post-verification action (builtin lifecycle or prompt-based)"""
+type VerificationAction {
+  builtinId: String
+  id: String
+  label: String
+  prompt: String
+  type: VerificationActionType
+}
+
+enum VerificationActionType {
+  builtin
+  prompt
+}
+
+"""A conversation within a project"""
+type Workstream {
+  activeSessionId: String
+  archivedAt: DateTime
+
+  """Branch selections for this workstream's directories"""
+  branchSelections: [BranchSelection!]
+  createdAt: DateTime
+
+  """Working directories for this workstream"""
+  directories: [WorkstreamDirectory!]
+
+  """Directories with computed branch/worktree info"""
+  directoriesWithBranchInfo: [DirectoryWithBranchInfo!]
+
+  """Vienna message ID at the fork point (null if not a fork)"""
+  forkedAtMessageId: String
+
+  """ID of the workstream this was forked from (null if not a fork)"""
+  forkedFromWorkstreamId: ID
+
+  """The workstream group this workstream belongs to (if any)"""
+  group: WorkstreamGroup
+  groupId: ID
+  id: ID
+
+  """Whether this workstream is currently focused in the UI"""
+  inFocus: Boolean
+  isPinned: Boolean
+  isRoutineWorkstream: Boolean
+  lastActivityAt: DateTime
+
+  """
+  Entities linked to this workstream as persistent context (includes group-inherited)
+  """
+  linkedEntities: [WorkstreamLinkedEntity!]
+  messageCount: Int
+  model: String
+
+  """The project this workstream belongs to"""
+  project: Project
+  status: WorkstreamStatus
+
+  """Tags applied to this workstream with execution status"""
+  tags: [WorkstreamTag!]
+  title: String
+  updatedAt: DateTime
+}
+
+"""A working directory associated with a workstream"""
+type WorkstreamDirectory {
+  createdAt: DateTime
+  id: ID
+  isInherited: Boolean
+  label: String
+  path: String
+  workstreamId: ID
+}
+
+"""A link from an entity to a workstream (reverse lookup result)"""
+type WorkstreamEntityLink {
+  createdAt: DateTime
+  entityTitle: String
+  entityType: String
+  entityUri: String
+  groupId: ID
+
+  """The linked workstream"""
+  workstream: Workstream
+  workstreamId: ID
+}
+
+"""A named collection of related workstreams within a project"""
+type WorkstreamGroup {
+  autoCreateWorktrees: Boolean
+
+  """
+  Default branch selections for group directories (inherited on workstream creation)
+  """
+  branchSelections: [GroupBranchSelection!]
+  createdAt: DateTime
+
+  """
+  Priority-derived status from child workstreams (highest priority wins). Used for collapsed nav display.
+  """
+  derivedStatus: WorkstreamStatus
+
+  """
+  Shared directories for this group (inherited by workstreams on creation)
+  """
+  directories: [GroupDirectory!]
+  emoji: String
+  id: ID
+  isPinned: Boolean
+
+  """Entities linked to this group (inherited by all workstreams)"""
+  linkedEntities: [GroupLinkedEntity!]
+  name: String
+
+  """The project this group belongs to"""
+  project: Project
+  updatedAt: DateTime
+
+  """Non-archived workstreams in this group"""
+  workstreams: [Workstream!]
+}
+
+"""An entity linked to a workstream as persistent context"""
+type WorkstreamLinkedEntity {
+  contextOverride: String
+  createdAt: DateTime
+  entityTitle: String
+  entityType: String
+  entityUri: String
+  isInherited: Boolean
+  workstreamId: ID
+}
+
+"""An entity reference detected in or added to a workstream conversation"""
+type WorkstreamReference {
+  entityTitle: String
+  entityType: String
+  entityUri: String
+  externalUrl: String
+  firstReferencedAt: DateTime
+  workstreamId: ID
+}
+
+enum WorkstreamStatus {
+  active
+  completed_unviewed
+  idle
+  needs_review
+  processing
+  waiting_permission
+}
+
+"""A tag applied to a workstream with snapshot data and execution status"""
+type WorkstreamTag {
+  appliedAt: DateTime
+  appliedBy: WorkstreamTagAppliedBy
+  completedAt: DateTime
+  delegatedWorkstreamId: ID
+  depth: Int
+  error: String
+  id: ID
+  sourceWorkstreamTagId: ID
+  startedAt: DateTime
+  status: WorkstreamTagStatus
+
+  """Current tag definition (null if tag was deleted)"""
+  tag: Tag
+  tagColor: String
+  tagDependsOn: [String!]
+  tagInstructions: String
+  tagMaxDepth: Int
+  tagName: String
+  tagSpawnWorkstream: Boolean
+  tagWorktreeMode: WorktreeMode
+  workstreamId: ID
+}
+
+enum WorkstreamTagAppliedBy {
+  agent
+  manual
+  pipeline
+  trigger
+}
+
+enum WorkstreamTagCompletionStatus {
+  completed
+  failed
+}
+
+enum WorkstreamTagStatus {
+  completed
+  failed
+  pending
+  running
+  skipped
+}
+
+enum WorktreeMode {
+  fork
+  from_main
+  same
+}
+
+type WorktreeResult {
+  branch: String
+  directoryPath: String
+  error: String
+  worktreePath: String
+}

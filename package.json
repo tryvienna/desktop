@@ -1,0 +1,47 @@
+{
+  "name": "vienna",
+  "private": true,
+  "license": "Apache-2.0",
+  "author": "Vienna contributors",
+  "homepage": "https://tryvienna.dev/docs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tryvienna/desktop.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tryvienna/desktop/issues"
+  },
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "typecheck": "turbo typecheck",
+    "test": "turbo test",
+    "test:unit": "turbo test:unit",
+    "test:integration": "turbo test:integration",
+    "test:e2e": "turbo test:e2e",
+    "format:check": "turbo format:check",
+    "format": "turbo format",
+    "make": "pnpm --filter @vienna/desktop make",
+    "make:signed": "pnpm --filter @vienna/desktop make:signed",
+    "make:staging": "pnpm --filter @vienna/desktop make:staging",
+    "make:staging:signed": "pnpm --filter @vienna/desktop make:staging:signed",
+    "ci:local": "./scripts/ci-local.sh",
+    "test:report": "./scripts/test-report.sh",
+    "ship": "./scripts/ship.sh",
+    "release": "./scripts/release.sh",
+    "version:bump": "./scripts/version-bump.sh",
+    "changelog:generate": "./scripts/changelog-generate.sh",
+    "changelog:finalize": "./scripts/changelog-finalize.sh",
+    "changelog:json": "node scripts/parse-changelog.js",
+    "audit:metadata": "node scripts/audit-package-metadata.mjs",
+    "rebuild:native": "find node_modules/.pnpm -name binding.gyp -execdir npx node-gyp rebuild \\;"
+  },
+  "devDependencies": {
+    "turbo": "^2.8.12"
+  },
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "packageManager": "pnpm@10.20.0"
+}

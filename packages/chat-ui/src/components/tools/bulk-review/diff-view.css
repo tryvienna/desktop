@@ -1,0 +1,119 @@
+/**
+ * diff-view.css — Syntax highlighting and word-level diff styles
+ *
+ * @ai-context
+ * - hljs token colors scoped to [data-slot="diff-view"]
+ * - Light/dark mode via :root/.dark CSS custom properties in OKLCH
+ * - Word-level emphasis backgrounds for inline diffs
+ * - Does NOT conflict with markdown.tsx hljs usage (scoped selector)
+ */
+
+/* ─── Theme tokens ────────────────────────────────────────────────────────── */
+
+:root {
+  --diff-hljs-keyword: oklch(0.5 0.14 270);
+  --diff-hljs-string: oklch(0.45 0.12 145);
+  --diff-hljs-comment: oklch(0.55 0.02 80);
+  --diff-hljs-number: oklch(0.5 0.12 50);
+  --diff-hljs-function: oklch(0.45 0.14 225);
+  --diff-hljs-type: oklch(0.45 0.12 195);
+  --diff-hljs-attr: oklch(0.5 0.12 30);
+  --diff-hljs-punctuation: oklch(0.4 0.02 80);
+  --diff-hljs-tag: oklch(0.5 0.14 15);
+  --diff-hljs-selector: oklch(0.5 0.12 145);
+  --diff-hljs-variable: oklch(0.4 0.1 250);
+
+  --diff-word-added-bg: oklch(0.8 0.1 150 / 0.4);
+  --diff-word-removed-bg: oklch(0.7 0.1 25 / 0.4);
+}
+
+.dark {
+  --diff-hljs-keyword: oklch(0.75 0.14 270);
+  --diff-hljs-string: oklch(0.72 0.12 145);
+  --diff-hljs-comment: oklch(0.5 0.02 80);
+  --diff-hljs-number: oklch(0.75 0.12 50);
+  --diff-hljs-function: oklch(0.72 0.14 225);
+  --diff-hljs-type: oklch(0.72 0.12 195);
+  --diff-hljs-attr: oklch(0.75 0.12 30);
+  --diff-hljs-punctuation: oklch(0.6 0.02 80);
+  --diff-hljs-tag: oklch(0.75 0.14 15);
+  --diff-hljs-selector: oklch(0.72 0.12 145);
+  --diff-hljs-variable: oklch(0.7 0.1 250);
+
+  --diff-word-added-bg: oklch(0.4 0.1 150 / 0.4);
+  --diff-word-removed-bg: oklch(0.35 0.1 25 / 0.4);
+}
+
+/* ─── hljs token mapping (scoped to diff-view) ───────────────────────────── */
+
+[data-slot='diff-view'] .hljs-keyword,
+[data-slot='diff-view'] .hljs-built_in {
+  color: var(--diff-hljs-keyword);
+}
+
+[data-slot='diff-view'] .hljs-string,
+[data-slot='diff-view'] .hljs-regexp {
+  color: var(--diff-hljs-string);
+}
+
+[data-slot='diff-view'] .hljs-comment,
+[data-slot='diff-view'] .hljs-meta {
+  color: var(--diff-hljs-comment);
+  font-style: italic;
+}
+
+[data-slot='diff-view'] .hljs-number,
+[data-slot='diff-view'] .hljs-literal {
+  color: var(--diff-hljs-number);
+}
+
+[data-slot='diff-view'] .hljs-title.function_,
+[data-slot='diff-view'] .hljs-title {
+  color: var(--diff-hljs-function);
+}
+
+[data-slot='diff-view'] .hljs-type,
+[data-slot='diff-view'] .hljs-title.class_ {
+  color: var(--diff-hljs-type);
+}
+
+[data-slot='diff-view'] .hljs-attr,
+[data-slot='diff-view'] .hljs-property {
+  color: var(--diff-hljs-attr);
+}
+
+[data-slot='diff-view'] .hljs-punctuation {
+  color: var(--diff-hljs-punctuation);
+}
+
+[data-slot='diff-view'] .hljs-tag {
+  color: var(--diff-hljs-tag);
+}
+
+[data-slot='diff-view'] .hljs-selector-class,
+[data-slot='diff-view'] .hljs-selector-id,
+[data-slot='diff-view'] .hljs-selector-tag {
+  color: var(--diff-hljs-selector);
+}
+
+[data-slot='diff-view'] .hljs-variable,
+[data-slot='diff-view'] .hljs-template-variable {
+  color: var(--diff-hljs-variable);
+}
+
+/* ─── Word-level diff emphasis ────────────────────────────────────────────── */
+
+[data-slot='diff-view'] .diff-word-changed {
+  border-radius: 2px;
+  padding: 0 1px;
+}
+
+/* Added line word emphasis */
+[data-slot='diff-view'] .bg-surface-success\/50 .diff-word-changed {
+  background: var(--diff-word-added-bg);
+}
+
+/* Removed line word emphasis */
+[data-slot='diff-view'] .bg-surface-error\/30 .diff-word-changed {
+  background: var(--diff-word-removed-bg);
+}

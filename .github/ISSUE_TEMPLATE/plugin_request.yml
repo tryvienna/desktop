@@ -1,0 +1,63 @@
+name: Plugin request
+description: Request a new first-party plugin or integration.
+title: "[Plugin]: "
+labels: ["plugin", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Vienna supports third-party plugins. First-party plugins are maintained
+        by the core team and listed in the official
+        [registry](https://github.com/tryvienna/registry). Use this template to
+        request a new first-party plugin, or to propose taking over ownership
+        of an existing one.
+
+        If you want to *build and maintain a plugin yourself*, you don't need
+        permission — see the [plugin author guide](https://github.com/tryvienna/desktop/blob/main/skills/plugin-dev/SKILL.md).
+
+  - type: input
+    id: integration
+    attributes:
+      label: Which service / tool should this integrate with?
+      placeholder: "e.g. Jira, Notion, Sentry, ..."
+    validations:
+      required: true
+
+  - type: textarea
+    id: use-cases
+    attributes:
+      label: What would Vienna users do with this plugin?
+      description: List the concrete use cases, not feature dumps.
+      placeholder: |
+        - Link a workstream to a Jira ticket so agents have context
+        - Post agent summaries back to the ticket as comments
+        - ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: auth
+    attributes:
+      label: Authentication model
+      description: OAuth? API token? Per-workspace vs per-user? (Best guess is fine.)
+    validations:
+      required: false
+
+  - type: dropdown
+    id: volunteer
+    attributes:
+      label: Are you willing to build / maintain this?
+      options:
+        - "Yes — I'll build it"
+        - "Yes — I'll help if someone else leads"
+        - "No, just requesting"
+    validations:
+      required: true
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I checked the registry and no official plugin exists for this
+          required: true

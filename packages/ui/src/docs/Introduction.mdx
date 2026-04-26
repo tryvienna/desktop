@@ -1,0 +1,68 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Getting Started/Introduction" />
+
+# @tryvienna/ui
+
+A comprehensive React component library built on **Radix UI**, **Tailwind CSS v4**, and **CVA** (class-variance-authority). Designed for building plugins that run inside the Vienna host application.
+
+## Architecture
+
+```
+Radix UI Primitives   →  Accessible, unstyled headless components
+  + Tailwind CSS v4   →  Utility-first styling with OKLCH design tokens
+  + CVA               →  Type-safe variant props
+  = @tryvienna/ui         →  Production-ready, themed components
+```
+
+### Key principles
+
+- **Radix-first**: Every interactive component is built on Radix UI primitives, giving you full accessibility (ARIA attributes, keyboard navigation, focus management) out of the box.
+- **Tailwind v4 tokens**: All visual properties flow from CSS custom properties defined in `styles.css`. This means theming is automatic — switch the class on the root element and everything updates.
+- **CVA variants**: Components expose variant props (e.g., `variant="outline"`, `size="sm"`) that map to Tailwind classes via class-variance-authority, keeping the API type-safe and composable.
+- **`data-slot` attributes**: Every component renders a `data-slot` attribute for targeted CSS overrides without fighting specificity.
+- **`cn()` utility**: All components accept `className` and merge it correctly using `clsx` + `tailwind-merge`.
+
+## Component categories
+
+| Category | Components | Description |
+|---|---|---|
+| **Form Controls** | Button, Input, Textarea, Checkbox, Switch, RadioGroup, Slider, Form | Interactive inputs with validation support |
+| **Layout & Display** | Card, Separator, ScrollArea, Badge, Avatar, Skeleton, Progress, Alert, Table | Structural and presentational primitives |
+| **Overlays** | Dialog, AlertDialog, Popover, HoverCard, Sheet, Drawer, Tooltip | Modal and floating content |
+| **Navigation** | Accordion, Tabs, Breadcrumb, Collapsible, Toggle, Pagination | Wayfinding and content organization |
+| **Menus & Selection** | Select, RichSelect, Combobox, DropdownMenu, ContextMenu, Menubar, Command | Picking items and triggering actions |
+| **Data Display** | Calendar, Carousel, Chart, EntityCard, MetadataList, Timeline | Visualizing structured content |
+| **Rich Content** | Markdown, MarkdownEditor, MermaidBlock, ChartBlock | Rendering and editing rich text |
+| **Composed** | ContentSection, EmptyState, InlineEdit, SearchFilterBar, ConfirmDialog, LoadingState | Higher-level patterns combining multiple primitives |
+| **Nav System** | SidePanel, NavSection, NavItem, FileTree | Application-level navigation structure |
+| **Status & Utility** | StatusBadge, StatusIndicator, Spinner, KeyboardHint, FileTypeIcon | Visual indicators and helpers |
+
+## Source distribution
+
+Since Vienna plugins render inside the host application, `@tryvienna/ui` is distributed as **source code** — not pre-bundled CSS or JS. Your plugin's bundler compiles the components alongside the host's Tailwind configuration, ensuring:
+
+- Themes are inherited automatically
+- No CSS duplication
+- Tree-shaking works at the component level
+- CSS utility classes are deduplicated with the host
+
+## Quick start
+
+```tsx
+import { Button, Card, CardContent, Badge } from '@tryvienna/ui';
+
+export function MyPlugin() {
+  return (
+    <Card>
+      <CardContent className="flex items-center gap-3 p-4">
+        <Badge variant="outline">New</Badge>
+        <span>Hello from my plugin!</span>
+        <Button size="sm">Action</Button>
+      </CardContent>
+    </Card>
+  );
+}
+```
+
+Browse the component stories in the sidebar to see every component in action, with all variants and interactive examples.

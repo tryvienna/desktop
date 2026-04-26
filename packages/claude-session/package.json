@@ -1,0 +1,36 @@
+{
+  "name": "@vienna/claude-session",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Efficient, typed watcher for Claude Code JSONL session files",
+  "license": "Apache-2.0",
+  "author": "Vienna contributors",
+  "homepage": "https://tryvienna.dev/docs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tryvienna/desktop.git",
+    "directory": "packages/claude-session"
+  },
+  "bugs": {
+    "url": "https://github.com/tryvienna/desktop/issues"
+  },
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "build": "tsc --build",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:unit": "vitest run"
+  },
+  "dependencies": {
+    "@parcel/watcher": "^2.5.1",
+    "zod": "^3.25.67"
+  },
+  "devDependencies": {
+    "@types/node": "^25.3.2",
+    "typescript": "^5.9.3",
+    "vitest": "^4.0.18"
+  }
+}

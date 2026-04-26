@@ -1,0 +1,35 @@
+name: Feature request
+description: Suggest an improvement or new capability for this plugin.
+title: "[Feature]: "
+labels: ["feature", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The best requests describe the *problem* first. The solution often
+        becomes obvious once the problem is clear.
+
+  - type: textarea
+    id: problem
+    attributes:
+      label: What problem are you trying to solve?
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution (if you have one)
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I searched existing issues and discussions for a similar request
+          required: true

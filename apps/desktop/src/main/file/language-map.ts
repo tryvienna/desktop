@@ -1,0 +1,50 @@
+/**
+ * Language Map — File extension to Monaco language ID mapping.
+ *
+ * Used by FileService for language detection.
+ * Shared with @vienna/editor types for renderer-side detection.
+ */
+
+export const LANGUAGE_MAP: Record<string, string> = {
+  '.ts': 'typescript',
+  '.tsx': 'typescriptreact',
+  '.js': 'javascript',
+  '.jsx': 'javascriptreact',
+  '.mjs': 'javascript',
+  '.cjs': 'javascript',
+  '.mts': 'typescript',
+  '.cts': 'typescript',
+  '.json': 'json',
+  '.jsonc': 'jsonc',
+  '.md': 'markdown',
+  '.mdx': 'mdx',
+  '.html': 'html',
+  '.htm': 'html',
+  '.css': 'css',
+  '.scss': 'scss',
+  '.less': 'less',
+  '.xml': 'xml',
+  '.svg': 'xml',
+  '.yaml': 'yaml',
+  '.yml': 'yaml',
+  '.toml': 'toml',
+  '.py': 'python',
+  '.rb': 'ruby',
+  '.java': 'java',
+  '.go': 'go',
+  '.rs': 'rust',
+  '.c': 'c',
+  '.cpp': 'cpp',
+  '.h': 'c',
+  '.hpp': 'cpp',
+  '.swift': 'swift',
+  '.kt': 'kotlin',
+  '.sql': 'sql',
+  '.graphql': 'graphql',
+  '.gql': 'graphql',
+  '.sh': 'shell',
+  '.bash': 'shell',
+  '.zsh': 'shell',
+  '.dockerfile': 'dockerfile',
+  '.env': 'dotenv',
+};

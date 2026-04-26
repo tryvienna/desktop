@@ -1,0 +1,4 @@
+@import '@tryvienna/ui/styles.css';
+@import '@vienna/chat-ui/theme.css';
+
+@source "./**/*.{ts,tsx}";

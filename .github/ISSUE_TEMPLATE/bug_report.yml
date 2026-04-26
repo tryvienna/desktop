@@ -1,0 +1,75 @@
+name: Bug report
+description: Something in Vienna is broken or behaves unexpectedly.
+title: "[Bug]: "
+labels: ["bug", "needs-triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to file a bug. Please fill in what you can.
+        Security-sensitive issues should go to `security@tryvienna.dev` instead
+        — see [SECURITY.md](https://github.com/tryvienna/desktop/blob/main/SECURITY.md).
+
+  - type: input
+    id: vienna-version
+    attributes:
+      label: Vienna version
+      description: "Help → About, or `cat ~/Library/Application\\ Support/Vienna/version`"
+      placeholder: "v0.1.0"
+    validations:
+      required: true
+
+  - type: input
+    id: os-version
+    attributes:
+      label: macOS version
+      placeholder: "macOS 14.4 (Sonoma)"
+    validations:
+      required: true
+
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened?
+      description: What did you do, and what went wrong?
+      placeholder: I opened a workstream, sent a prompt, and ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected
+    attributes:
+      label: What did you expect to happen?
+    validations:
+      required: true
+
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      description: Numbered steps. The smaller the repro, the faster we can fix it.
+      placeholder: |
+        1. Open Vienna
+        2. Create a new workstream bound to ~/code/myproject
+        3. ...
+    validations:
+      required: true
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Logs
+      description: |
+        Paste relevant log snippets from `~/Library/Logs/Vienna/`. Redact anything
+        sensitive (API keys, file contents) before pasting.
+      render: text
+
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Checks
+      options:
+        - label: I searched existing issues and this isn't a duplicate
+          required: true
+        - label: I can reproduce this on the latest version of Vienna
+          required: false

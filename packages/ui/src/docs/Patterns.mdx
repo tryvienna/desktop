@@ -1,0 +1,281 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Getting Started/Patterns" />
+
+# Common Patterns
+
+Recipes for composing `@tryvienna/ui` components into real plugin UI.
+
+## Form with validation
+
+Use `Form` components with `react-hook-form` and `zod` for type-safe form handling:
+
+```tsx
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import {
+  Form, FormField, FormItem, FormLabel, FormControl, FormMessage,
+  Input, Button, Card, CardContent, CardHeader, CardTitle,
+} from '@tryvienna/ui';
+
+const schema = z.object({
+  name: z.string().min(2, 'Name must be at least 2 characters'),
+  email: z.string().email('Invalid email address'),
+});
+
+function SettingsForm() {
+  const form = useForm({
+    resolver: zodResolver(schema),
+    defaultValues: { name: '', email: '' },
+  });
+
+  return (
+    <Card>
+      <CardHeader>
+        <CardTitle>Settings</CardTitle>
+      </CardHeader>
+      <CardContent>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(console.log)} className="space-y-4">
+            <FormField control={form.control} name="name" render={({ field }) => (
+              <FormItem>
+                <FormLabel>Name</FormLabel>
+                <FormControl><Input {...field} /></FormControl>
+                <FormMessage />
+              </FormItem>
+            )} />
+            <FormField control={form.control} name="email" render={({ field }) => (
+              <FormItem>
+                <FormLabel>Email</FormLabel>
+                <FormControl><Input type="email" {...field} /></FormControl>
+                <FormMessage />
+              </FormItem>
+            )} />
+            <Button type="submit">Save</Button>
+          </form>
+        </Form>
+      </CardContent>
+    </Card>
+  );
+}
+```
+
+## Dialog with confirm
+
+```tsx
+import { useState } from 'react';
+import {
+  Dialog, DialogTrigger, DialogContent, DialogHeader,
+  DialogTitle, DialogDescription, DialogFooter,
+  Button,
+} from '@tryvienna/ui';
+
+function DeleteDialog({ onConfirm }: { onConfirm: () => void }) {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button variant="destructive" size="sm">Delete</Button>
+      </DialogTrigger>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Are you sure?</DialogTitle>
+          <DialogDescription>
+            This action cannot be undone.
+          </DialogDescription>
+        </DialogHeader>
+        <DialogFooter>
+          <Button variant="outline" onClick={() => setOpen(false)}>Cancel</Button>
+          <Button variant="destructive" onClick={() => { onConfirm(); setOpen(false); }}>
+            Delete
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+```
+
+Or use the built-in `ConfirmDialog` for a simpler API:
+
+```tsx
+import { ConfirmDialog, Button } from '@tryvienna/ui';
+
+<ConfirmDialog
+  title="Delete item?"
+  description="This action cannot be undone."
+  confirmLabel="Delete"
+  variant="destructive"
+  onConfirm={() => deleteItem()}
+>
+  <Button variant="destructive" size="sm">Delete</Button>
+</ConfirmDialog>
+```
+
+## Loading and empty states
+
+```tsx
+import { LoadingState, EmptyState, Button } from '@tryvienna/ui';
+import { FileText, Plus } from 'lucide-react';
+
+// Loading
+function ItemsList({ items, isLoading }) {
+  if (isLoading) return <LoadingState label="Loading items..." />;
+
+  if (items.length === 0) {
+    return (
+      <EmptyState
+        icon={<FileText size={32} />}
+        title="No items yet"
+        description="Create your first item to get started."
+        action={<Button size="sm"><Plus size={14} /> Create Item</Button>}
+      />
+    );
+  }
+
+  return <ul>{items.map(item => <li key={item.id}>{item.name}</li>)}</ul>;
+}
+```
+
+## Command palette / search
+
+```tsx
+import { useState } from 'react';
+import {
+  CommandDialog, CommandInput, CommandList,
+  CommandEmpty, CommandGroup, CommandItem,
+} from '@tryvienna/ui';
+
+function SearchDialog({ open, onOpenChange }) {
+  return (
+    <CommandDialog open={open} onOpenChange={onOpenChange}>
+      <CommandInput placeholder="Search..." />
+      <CommandList>
+        <CommandEmpty>No results found.</CommandEmpty>
+        <CommandGroup heading="Actions">
+          <CommandItem>Create new item</CommandItem>
+          <CommandItem>Open settings</CommandItem>
+        </CommandGroup>
+        <CommandGroup heading="Recent">
+          <CommandItem>My Project</CommandItem>
+          <CommandItem>Dashboard</CommandItem>
+        </CommandGroup>
+      </CommandList>
+    </CommandDialog>
+  );
+}
+```
+
+## Tabs with content
+
+```tsx
+import { Tabs, TabsList, TabsTrigger, TabsContent, Card, CardContent } from '@tryvienna/ui';
+
+function DetailView() {
+  return (
+    <Tabs defaultValue="overview">
+      <TabsList>
+        <TabsTrigger value="overview">Overview</TabsTrigger>
+        <TabsTrigger value="activity">Activity</TabsTrigger>
+        <TabsTrigger value="settings">Settings</TabsTrigger>
+      </TabsList>
+      <TabsContent value="overview">
+        <Card><CardContent className="p-4">Overview content</CardContent></Card>
+      </TabsContent>
+      <TabsContent value="activity">
+        <Card><CardContent className="p-4">Activity feed</CardContent></Card>
+      </TabsContent>
+      <TabsContent value="settings">
+        <Card><CardContent className="p-4">Settings form</CardContent></Card>
+      </TabsContent>
+    </Tabs>
+  );
+}
+```
+
+## Dropdown menu
+
+```tsx
+import {
+  DropdownMenu, DropdownMenuTrigger, DropdownMenuContent,
+  DropdownMenuItem, DropdownMenuSeparator, DropdownMenuLabel,
+  Button,
+} from '@tryvienna/ui';
+import { MoreHorizontal, Pencil, Copy, Trash2 } from 'lucide-react';
+
+function ItemActions() {
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" size="icon">
+          <MoreHorizontal size={16} />
+        </Button>
+      </DropdownMenuTrigger>
+      <DropdownMenuContent align="end">
+        <DropdownMenuLabel>Actions</DropdownMenuLabel>
+        <DropdownMenuItem><Pencil size={14} /> Edit</DropdownMenuItem>
+        <DropdownMenuItem><Copy size={14} /> Duplicate</DropdownMenuItem>
+        <DropdownMenuSeparator />
+        <DropdownMenuItem className="text-destructive">
+          <Trash2 size={14} /> Delete
+        </DropdownMenuItem>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  );
+}
+```
+
+## Toast notifications
+
+```tsx
+import { toast, Button } from '@tryvienna/ui';
+
+function NotifyExample() {
+  return (
+    <div className="flex gap-2">
+      <Button onClick={() => toast.success('Item created')}>Success</Button>
+      <Button onClick={() => toast.error('Something went wrong')}>Error</Button>
+      <Button onClick={() => toast('Processing...', { duration: Infinity })}>
+        Persistent
+      </Button>
+    </div>
+  );
+}
+```
+
+## className composition
+
+All components accept `className` and merge it correctly via `cn()` (tailwind-merge). Your classes override defaults without specificity conflicts:
+
+```tsx
+// Override padding
+<Card className="p-0" />
+
+// Add custom styling
+<Button className="w-full justify-start" variant="ghost">
+  Full-width left-aligned button
+</Button>
+
+// Conditional classes
+<Badge className={isActive ? 'bg-green-500/20 text-green-500' : undefined}>
+  {isActive ? 'Active' : 'Inactive'}
+</Badge>
+```
+
+## data-slot targeting
+
+Every component renders a `data-slot` attribute, enabling CSS overrides without knowing internal class names:
+
+```css
+/* Target all buttons inside your plugin */
+[data-slot="button"] {
+  font-family: 'My Custom Font', sans-serif;
+}
+
+/* Target dialog overlays */
+[data-slot="dialog-overlay"] {
+  backdrop-filter: blur(8px);
+}
+```

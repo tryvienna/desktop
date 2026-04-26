@@ -1,0 +1,14 @@
+packages:
+  - apps/*
+  - packages/*
+
+onlyBuiltDependencies:
+  - electron
+  - esbuild
+  - '@vscode/ripgrep'
+  - better-sqlite3
+  - macos-alias
+  - fs-xattr
+
+patchedDependencies:
+  '@electron-forge/plugin-vite@7.11.1': patches/@electron-forge__plugin-vite@7.11.1.patch

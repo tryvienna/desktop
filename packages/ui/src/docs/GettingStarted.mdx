@@ -1,0 +1,115 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Getting Started/Installation" />
+
+# Installation
+
+## Install the package
+
+```bash
+npm install @tryvienna/ui
+# or
+pnpm add @tryvienna/ui
+```
+
+## Peer dependencies
+
+`@tryvienna/ui` expects the following to be provided by the host application. When building a Vienna plugin, these are already available — you don't need to install them separately.
+
+**Required:**
+- `react` >= 19
+- `react-dom` >= 19
+- `tailwindcss` >= 4
+
+**Component-specific (install only if you use the component):**
+
+| Dependency | Used by |
+|---|---|
+| `@radix-ui/react-*` | Most interactive components |
+| `lucide-react` | Icons in various components |
+| `sonner` | `Toaster` / `toast` |
+| `vaul` | `Drawer` |
+| `cmdk` | `Command` / `CommandDialog` |
+| `recharts` | `ChartContainer` |
+| `embla-carousel-react` | `Carousel` |
+| `react-day-picker` | `Calendar` |
+| `react-hook-form` + `zod` | `Form` components |
+| `highlight.js` | `Markdown` code highlighting |
+| `marked` | `Markdown` rendering |
+| `mermaid` | `MermaidBlock` |
+
+## Import styles
+
+Import the design token stylesheet in your plugin's entry point:
+
+```tsx
+import '@tryvienna/ui/styles.css';
+```
+
+> **Note**: When running inside the Vienna host app, styles are already loaded. You only need this import for standalone development or testing.
+
+## Import components
+
+```tsx
+// Named imports from the main entry
+import { Button, Input, Card, CardContent } from '@tryvienna/ui';
+
+// Type imports for props
+import type { ButtonProps, InputProps } from '@tryvienna/ui';
+```
+
+## Tailwind configuration
+
+Since `@tryvienna/ui` is source-distributed, your Tailwind config needs to scan its source files:
+
+```ts
+// tailwind.config.ts or @source directive
+@source "node_modules/@tryvienna/ui/src/**/*.{ts,tsx}";
+```
+
+This ensures all utility classes used by `@tryvienna/ui` components are included in your build.
+
+## TypeScript
+
+`@tryvienna/ui` ships TypeScript source. The `exports` map in `package.json` points to `.ts` files directly:
+
+```json
+{
+  ".": { "types": "./dist/index.d.ts", "default": "./src/index.ts" }
+}
+```
+
+Your bundler will compile these alongside your own code. No separate type package is needed.
+
+## Minimal plugin example
+
+```tsx
+import { Button, Card, CardContent, CardHeader, CardTitle, Input, Label } from '@tryvienna/ui';
+import { useState } from 'react';
+
+export function GreetingPlugin() {
+  const [name, setName] = useState('');
+
+  return (
+    <Card className="max-w-sm">
+      <CardHeader>
+        <CardTitle>Greeting Plugin</CardTitle>
+      </CardHeader>
+      <CardContent className="space-y-4">
+        <div className="space-y-2">
+          <Label htmlFor="name">Your name</Label>
+          <Input
+            id="name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Enter your name..."
+          />
+        </div>
+        <Button onClick={() => alert(`Hello, ${name}!`)}>
+          Say Hello
+        </Button>
+      </CardContent>
+    </Card>
+  );
+}
+```

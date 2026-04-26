@@ -1,0 +1,142 @@
+# Changelog
+
+## v0.0.16 — April 5, 2026
+
+### New
+- restore deep link install buttons for plugins and profiles (#449)
+- update landing page hero and section headings (#444)
+- support HTML images in plugin READMEs and rewrite relative URLs (#443)
+- support root-level single-plugin repos (#442)
+- add widget button, plugin store canvas filters, and remove template browser (#441)
+- expose theme to plugins via useTheme() hook (#437)
+- strict error boundaries for feed canvases and entity drawers (#439)
+- add Home button and section labels (#438)
+- auto-install deps, enriched env, and openExternal hostApi (#436)
+- detect missing deps and offer install dialog (#434)
+- plugin toggle UI, feed optimization, refresh UX (#433)
+- plugin feed canvas, local override UI, and drawer navigation (#432)
+- bundle vcli with desktop app (#430)
+- visual plugin creation via ActionFormBar (#428)
+- add copy button to install command on download page (#429)
+- default website theme to dark mode (#427)
+- landing page overhaul with video showcase and waitlist CTA (#422)
+- add join waitlist page (#421)
+- integrate Resend as email provider (#420)
+- server-derived workstream focus via inFocus field
+- add SDK workstream operations and fix plugin feed lifecycle
+- add usePlaybackMarkers hook for timed video cue points
+- add loading skeleton to YouTubeEmbed
+- detachable feed cards, plugin feed canvases, and YouTube playback tracking
+- add tag icon to chat input with quick-apply dropdown and management drawer (#412)
+- add permission indicator to chat input (#411)
+- inline json-render specs in feed.md + YouTubeCard (#407)
+- consolidate help docs onto docs site (#403)
+- feed onboarding modal with template browser (#404)
+- replace empty state with functional chat input (#402)
+- add plugins video, update bento card copy, and improve grid spacing
+- add suggestion prompt before nonprofit list on pricing page
+- update landing page with Parallel Agents feature and video
+- add CLI reference page (#397)
+- local speech-to-text via Whisper ONNX (#280)
+- home feed system with production fixes, toggle, and parallel generation (#392)
+- enhance feed UI with interactive cards, images, and grid layout (#370)
+- show tag DAG diagram in execution widget (#383)
+- gate logging behind developer mode, remove dead settings
+- add CSS import support to plugin bundler (#375)
+- add plugins directory to website (#371)
+- open plugin nav items as tabs instead of full-view drawers
+- add feedback status field and admin API routes (#365)
+- add dirty indicator and Cmd+S save to paste drawer
+- show GitHub forks count on profile pages (#363)
+- add view and install analytics tracking for profiles (#361)
+- add sync and delete actions to dashboard profile list
+- edit display name on dashboard + delete profile button
+- density-aware form controls + colored section icons
+- profiles directory — publish, discover, and install content profiles
+- add comprehensive drawer UI guideline stories
+- shareable content profiles with fork-via-deep-link viral loop
+- 3-tier layered configuration system with .vienna/ as local registries
+- open workstream creation form from entity drawer with pre-filled data (#356)
+- remove PropertiesSection from workstream settings
+
+### Fixed
+- auto-update official registry URL on startup
+- emit onPluginChanged during startup plugin loading
+- remove bold from IDE, update subtitle copy (#446)
+- pass hostApi to plugin feed canvas components
+- missing review fixes + sdk 0.1.7
+- add max height to select step in action form bar (#435)
+- auto-focus input when ActionFormBar appears (#431)
+- update SEO meta description and add OpenGraph/Twitter cards (#426)
+- simplify vercel.json, remove framework/output overrides
+- scope Vercel build to web app only, skip desktop/electron
+- add explicit type annotations to fix strict TS errors in graphql package
+- landing page build fixes and PR review feedback (#423)
+- unpack onnxruntime dylib from asar for speech-to-text (#418)
+- include onnxruntime-common in packaged app
+- add 1s forward offset to YouTube playback restore
+- revert bento videos to placeholders, keep updated copy
+- render SVG icons in type filter tabs (#410)
+- CSP, webview, TDZ, and spacing fixes for feed (#409)
+- improve YouTubeCard title spacing
+- move handleEditFile before handleCreateFeed
+- add frame-src for YouTube to CSP
+- fix "Create from scratch" button doing nothing
+- use webview instead of iframe for YouTubeCard
+- show scope name instead of UUID when chaining from scope creation (#382)
+- scroll to top when navigating between docs (#408)
+- update hero subtitle copy to "local-first, extendable"
+- remove .git from .vercelignore, keep .turbo and .worktrees
+- also exclude .worktrees from Vercel deploys
+- add .vercelignore to exclude .turbo cache from deploys
+- worktree plugin resolution and entity drawer refresh support
+- TypeScript error in whisper transcriber test (#395)
+- base64 stack overflow, auto-download UX, and shortcut tooltip on mic button (#394)
+- resolve esbuild version mismatch and TypeScript errors
+- use humanized entity type as tab label instead of "Loading…"
+- add feed entry point to tsup build config (#390)
+- show "Loading…" instead of entity type slug in drawer tab
+- split underscores and hyphens in intent classifier tokenizer
+- add @json-render/core and @json-render/react to desktop dependencies
+- externalize unprefixed Node built-ins in renderer bundles
+- show scope name instead of UUID when chaining from scope creation (#381)
+- update generated GraphQL files to remove debugMode and reactScanEnabled
+- bundle plugin-owned deps in renderer instead of externalizing
+- prevent search icon from overlapping placeholder in plugins explorer (#377)
+- remove Timeline section from workstream settings drawer (#376)
+- close entity drawer tab on plugin-initiated close (e.g. delete) (#372)
+- truncate long scope names in nav section headers
+- use hyphen separator in worktree branch names (#366)
+- Done button saves and closes the paste drawer
+- transpile rehype-sanitize for ESM compat (#362)
+- rewrite profiles migration to be incremental for production
+- address PR review — security hardening and race condition fixes
+- profile switch now correctly swaps plugins, quick actions, and defaults
+- re-seed quick actions from registry on profile switch
+- resolve profile content from .vienna/ subdirectory + invalidate renderer on switch
+- regenerate GraphQL codegen for content profile operations
+- unset ESBUILD_BINARY_PATH in all make/build scripts
+- align esbuild versions to ^0.27.0 across workspace
+- prevent silent failures when deleting workstreams (#355)
+- show persistent pin indicator for pinned workstreams and scopes
+
+### Other
+- Handle plugin install deep links from website (#450)
+- Replace waitlist CTAs with download + Codex waitlist (#447)
+- Remove emoji icon rendering from plugin store views (#445)
+- Fix waitlist emails: await before response, remove debug logs (#425)
+- Landing page polish and pre-launch cleanup (#424)
+- revert: remove vercel.json, deploy from apps/web directory instead
+- Rename Drift to Vienna across entire codebase (#393)
+- Worktree name
+- Website touch-ups: pricing cleanup and CMD+J focus shortcut (#389)
+- style: remove section header icons from drawers
+- style: apply Enhanced Vienna UI guidelines to drawers
+- Redesign website with bento layout, dark mode, and consistent styling
+- Add dedication to About settings
+- Revert "fix(build): align esbuild versions to ^0.27.0 across workspace"
+- Revert "fix(build): unset ESBUILD_BINARY_PATH in all make/build scripts"
+
+## v0.0.20 — March 31, 2026
+
+Hello, Vienna! 👋

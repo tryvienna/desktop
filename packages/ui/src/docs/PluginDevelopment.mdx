@@ -1,0 +1,190 @@
+import { Meta } from '@storybook/blocks';
+
+<Meta title="Getting Started/Plugin Development" />
+
+# Plugin Development Guide
+
+End-to-end guide for building Vienna plugin UIs with `@tryvienna/ui`.
+
+## How plugins work
+
+Vienna plugins are React components that render **inside** the Vienna host application. This means:
+
+1. **Shared runtime** — Your plugin shares React, ReactDOM, and Tailwind with the host. No duplicate bundles.
+2. **Inherited theming** — The active theme (Light, Dark, VS Code) applies automatically to all `@tryvienna/ui` components.
+3. **Source compilation** — `@tryvienna/ui` ships as TypeScript source. Your plugin's bundler compiles it alongside your code.
+
+## Project setup
+
+### 1. Initialize your plugin
+
+```bash
+mkdir my-vienna-plugin && cd my-vienna-plugin
+npm init -y
+npm install @tryvienna/ui react react-dom
+npm install -D typescript @types/react
+```
+
+### 2. Configure TypeScript
+
+```json
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "jsx": "react-jsx",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  },
+  "include": ["src"]
+}
+```
+
+### 3. Import styles
+
+In your plugin entry point:
+
+```tsx
+// Only needed for standalone development — the host app loads this in production
+import '@tryvienna/ui/styles.css';
+```
+
+## Building a plugin UI
+
+### Layout structure
+
+Most plugins follow a standard layout pattern:
+
+```tsx
+import {
+  Card, CardHeader, CardTitle, CardContent,
+  Tabs, TabsList, TabsTrigger, TabsContent,
+  ScrollArea,
+} from '@tryvienna/ui';
+
+export function MyPlugin() {
+  return (
+    <div className="flex flex-col h-full">
+      {/* Header */}
+      <div className="flex items-center justify-between p-4 border-b border-primary">
+        <h2 className="text-sm font-semibold text-primary">My Plugin</h2>
+      </div>
+
+      {/* Content */}
+      <ScrollArea className="flex-1">
+        <div className="p-4 space-y-4">
+          <Card>
+            <CardHeader>
+              <CardTitle>Section Title</CardTitle>
+            </CardHeader>
+            <CardContent>
+              {/* Your content here */}
+            </CardContent>
+          </Card>
+        </div>
+      </ScrollArea>
+    </div>
+  );
+}
+```
+
+### Responsive to density
+
+Use the `ContentProvider` to adapt your UI to the host's density setting:
+
+```tsx
+import { ContentProvider, useContentDensity, ContentSection } from '@tryvienna/ui';
+
+function MyContent() {
+  const density = useContentDensity();
+  // density is 'compact' | 'normal' | 'comfortable'
+
+  return (
+    <ContentSection title="Items" collapsible>
+      {/* Content automatically adjusts spacing based on density */}
+    </ContentSection>
+  );
+}
+```
+
+## Accessibility checklist
+
+Since `@tryvienna/ui` is built on Radix UI, you get strong accessibility defaults. Follow these guidelines to maintain them:
+
+- **Labels**: Always provide `aria-label` or visible labels for interactive elements
+- **Focus**: Don't remove focus outlines — they're essential for keyboard users
+- **Color contrast**: The built-in themes meet WCAG AA. If you add custom colors, ensure 4.5:1 for text, 3:1 for UI components
+- **Keyboard**: All Radix-based components support full keyboard navigation. Test with Tab, Enter, Space, Escape, Arrow keys
+- **Screen readers**: Use semantic HTML (`<nav>`, `<main>`, `<section>`) and ARIA landmarks
+
+```tsx
+// Good — labeled input
+<Label htmlFor="search">Search</Label>
+<Input id="search" placeholder="Search items..." />
+
+// Good — labeled icon button
+<Button variant="ghost" size="icon" aria-label="Open settings">
+  <Settings size={16} />
+</Button>
+
+// Avoid — unlabeled icon button
+<Button variant="ghost" size="icon">
+  <Settings size={16} />
+</Button>
+```
+
+## Performance tips
+
+- **Lazy load heavy components**: `Markdown`, `MermaidBlock`, `ChartBlock`, and `Calendar` have large dependencies. Use `React.lazy()` if they're not immediately visible.
+- **Virtualize long lists**: For lists over 100 items, use a virtualization library rather than rendering all items.
+- **Memoize callbacks**: When passing callbacks to `@tryvienna/ui` components in lists, wrap them in `useCallback` to prevent unnecessary re-renders.
+
+```tsx
+import { lazy, Suspense } from 'react';
+import { Spinner } from '@tryvienna/ui';
+
+const Markdown = lazy(() => import('@tryvienna/ui').then(m => ({ default: m.Markdown })));
+
+function MyContent({ content }) {
+  return (
+    <Suspense fallback={<Spinner />}>
+      <Markdown content={content} />
+    </Suspense>
+  );
+}
+```
+
+## Testing your plugin
+
+Components work with standard React testing tools:
+
+```tsx
+import { render, screen } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
+import { Button } from '@tryvienna/ui';
+
+test('button click', async () => {
+  const onClick = vi.fn();
+  render(<Button onClick={onClick}>Click me</Button>);
+
+  await userEvent.click(screen.getByRole('button', { name: 'Click me' }));
+  expect(onClick).toHaveBeenCalled();
+});
+```
+
+For components that need a provider (like `Tooltip`), wrap in `TooltipProvider`:
+
+```tsx
+import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '@tryvienna/ui';
+
+render(
+  <TooltipProvider>
+    <Tooltip>
+      <TooltipTrigger>Hover me</TooltipTrigger>
+      <TooltipContent>Tooltip text</TooltipContent>
+    </Tooltip>
+  </TooltipProvider>
+);
+```

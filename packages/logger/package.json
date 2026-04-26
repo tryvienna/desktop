@@ -1,0 +1,43 @@
+{
+  "name": "@vienna/logger",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "description": "Structured logging for Vienna — main process (Pino) and renderer (IPC)",
+  "license": "Apache-2.0",
+  "author": "Vienna contributors",
+  "homepage": "https://tryvienna.dev/docs",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tryvienna/desktop.git",
+    "directory": "packages/logger"
+  },
+  "bugs": {
+    "url": "https://github.com/tryvienna/desktop/issues"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./main": "./src/main.ts",
+    "./renderer": "./src/renderer.ts"
+  },
+  "scripts": {
+    "build": "tsc --build",
+    "clean": "rm -rf dist tsconfig.tsbuildinfo",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "pnpm run test:unit",
+    "test:unit": "vitest run"
+  },
+  "dependencies": {
+    "pino": "^9.6.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.3",
+    "@types/node": "^22.0.0",
+    "eslint": "^9.39.3",
+    "eslint-config-prettier": "^10.1.8",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.56.1",
+    "vitest": "^4.0.18"
+  }
+}

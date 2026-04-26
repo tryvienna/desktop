@@ -1,0 +1,11 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Question or discussion
+    url: https://github.com/tryvienna/desktop/discussions
+    about: Open-ended questions, design discussions, and ideas go in Discussions.
+  - name: Security vulnerability
+    url: https://github.com/tryvienna/desktop/blob/main/SECURITY.md
+    about: Report privately — do not open a public issue.
+  - name: Code of Conduct concern
+    url: mailto:conduct@tryvienna.dev
+    about: Report privately to the maintainers.

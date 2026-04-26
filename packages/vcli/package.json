@@ -1,0 +1,43 @@
+{
+  "name": "@vienna/vcli",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Vienna plugin development CLI — scaffold fully-typed plugins from a single command",
+  "license": "Apache-2.0",
+  "bugs": {
+    "url": "https://github.com/tryvienna/desktop/issues"
+  },
+  "author": "the Vienna contributors",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tryvienna/desktop.git",
+    "directory": "packages/vcli"
+  },
+  "homepage": "https://tryvienna.dev/docs/reference/cli",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "bin": {
+    "vcli": "./bin/vcli.mjs"
+  },
+  "scripts": {
+    "build": "tsup",
+    "bundle": "esbuild src/index.ts --bundle --platform=node --format=cjs --target=node22 --outfile=dist/vcli/index.cjs --banner:js='#!/usr/bin/env node'",
+    "typecheck": "tsc --noEmit",
+    "test": "node --experimental-strip-types --experimental-transform-types --test src/__tests__/*.test.ts",
+    "docs": "node --experimental-strip-types --experimental-transform-types src/generate-docs.ts"
+  },
+  "dependencies": {
+    "commander": "^13.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "esbuild": "^0.25.0",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3"
+  }
+}

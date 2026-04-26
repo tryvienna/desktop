@@ -1,0 +1,28 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "jsx": "react-jsx",
+    "types": ["node", "vite/client"],
+    "outDir": "dist",
+    "rootDir": "src"
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules", "dist", "out", ".vite", "src/**/*.stories.tsx", "src/**/*.stories.ts"],
+  "references": [
+    { "path": "../../packages/agent-core" },
+    { "path": "../../packages/agent-db" },
+    { "path": "../../packages/agent-permissions" },
+    { "path": "../../packages/agent-providers" },
+    { "path": "../../packages/app-db" },
+    { "path": "../../packages/chat-ui" },
+    { "path": "../../packages/sdk" },
+    { "path": "../../packages/env" },
+    { "path": "../../packages/graphql" },
+    { "path": "../../packages/ipc" },
+    { "path": "../../packages/logger" },
+    { "path": "../../packages/paths" },
+    { "path": "../../packages/profiler-sdk" },
+    { "path": "../../packages/ui" }
+  ]
+}
