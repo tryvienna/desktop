@@ -37,7 +37,6 @@ const UpdateAiSettingsInput = builder.inputType('UpdateAiSettingsInput', {
 const UpdateAdvancedSettingsInput = builder.inputType('UpdateAdvancedSettingsInput', {
   fields: (t) => ({
     developerMode: t.boolean(),
-    profilerEnabled: t.boolean(),
     focusMonitorEnabled: t.boolean(),
     focusMonitorIntervalMs: t.int(),
   }),
@@ -118,7 +117,6 @@ builder.mutationFields((t) => ({
       try {
         ctx.db.settings.update('advanced', {
           developerMode: args.input.developerMode ?? undefined,
-          profilerEnabled: args.input.profilerEnabled ?? undefined,
           focusMonitorEnabled: args.input.focusMonitorEnabled ?? undefined,
           focusMonitorIntervalMs: args.input.focusMonitorIntervalMs ?? undefined,
         });

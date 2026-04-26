@@ -20,7 +20,8 @@ function defaultSettings(): AllSettings {
     },
     advanced: {
       developerMode: null,
-      profilerEnabled: false,
+      focusMonitorEnabled: false,
+      focusMonitorIntervalMs: 2000,
     },
     permissions: { activePreset: 'balanced', rules: [] },
     permissionTemplates: { templates: [] },

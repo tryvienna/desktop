@@ -52,7 +52,8 @@ describe('SettingsRepository', () => {
     const result = settings.get('advanced');
     expect(result).toEqual({
       developerMode: null,
-      profilerEnabled: false,
+      focusMonitorEnabled: false,
+      focusMonitorIntervalMs: 2000,
     });
   });
 
@@ -147,12 +148,12 @@ describe('SettingsRepository', () => {
   it('getAll reflects updates across categories', () => {
     settings.update('appearance', { theme: 'light' });
     settings.update('ai', { defaultModel: 'haiku' });
-    settings.update('advanced', { profilerEnabled: true });
+    settings.update('advanced', { developerMode: true });
 
     const all = settings.getAll();
     expect(all.appearance.theme).toBe('light');
     expect(all.ai.defaultModel).toBe('haiku');
-    expect(all.advanced.profilerEnabled).toBe(true);
+    expect(all.advanced.developerMode).toBe(true);
   });
 
   // ─────────────────────────────────────────────────────────────────────────
@@ -259,7 +260,7 @@ describe('SettingsRepository', () => {
     expect(defaults.appearance.theme).toBe('system');
     expect(defaults.appearance.fontSize).toBe(14);
     expect(defaults.ai.defaultModel).toBe('sonnet');
-    expect(defaults.advanced.profilerEnabled).toBe(false);
+    expect(defaults.advanced.developerMode).toBe(null);
   });
 
   // ─────────────────────────────────────────────────────────────────────────
@@ -270,7 +271,7 @@ describe('SettingsRepository', () => {
     settings.replaceAll({
       appearance: { theme: 'dark', fontSize: 18, compactMode: true },
       ai: { defaultModel: 'opus', cliPath: '/usr/bin/claude', cliSetupComplete: true },
-      advanced: { developerMode: true, profilerEnabled: true },
+      advanced: { developerMode: true },
     });
     const all = settings.getAll();
     expect(all.appearance.theme).toBe('dark');
@@ -278,7 +279,6 @@ describe('SettingsRepository', () => {
     expect(all.ai.defaultModel).toBe('opus');
     expect(all.ai.cliPath).toBe('/usr/bin/claude');
     expect(all.advanced.developerMode).toBe(true);
-    expect(all.advanced.profilerEnabled).toBe(true);
   });
 
   it('replaceAll fills defaults for missing fields', () => {
@@ -287,7 +287,7 @@ describe('SettingsRepository', () => {
     expect(all.appearance.theme).toBe('light');
     expect(all.appearance.fontSize).toBe(14); // default
     expect(all.ai.defaultModel).toBe('sonnet'); // default
-    expect(all.advanced.profilerEnabled).toBe(false); // default
+    expect(all.advanced.developerMode).toBe(null); // default
   });
 
   it('replaceAll strips unknown fields', () => {

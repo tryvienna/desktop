@@ -59,7 +59,6 @@ builder.objectType(AdvancedSettingsRef, {
   description: 'Advanced/developer settings',
   fields: (t) => ({
     developerMode: t.exposeBoolean('developerMode', { nullable: true }),
-    profilerEnabled: t.exposeBoolean('profilerEnabled'),
     focusMonitorEnabled: t.exposeBoolean('focusMonitorEnabled'),
     focusMonitorIntervalMs: t.exposeInt('focusMonitorIntervalMs'),
   }),

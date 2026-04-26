@@ -226,7 +226,6 @@ Each item is a self-contained task that can be assigned to an independent agent.
 | File | What to Test |
 |------|-------------|
 | `packages/app-db/src/routines.ts` | CRUD operations, scheduling, deactivation |
-| `packages/profiler-sdk/src/client.ts` | Initialization, data collection, error handling, cleanup |
 | `apps/desktop/src/main/file/FileService.ts` | File watch, unwatch, error recovery |
 | `apps/desktop/src/main/lsp/LspManager.ts` | Server lifecycle, project root detection, multi-language support |
 | `apps/desktop/src/ipc/workstream/handlers.ts` | Workstream CRUD, agent lifecycle |

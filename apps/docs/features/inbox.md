@@ -27,7 +27,7 @@ The preference is stored in `localStorage` via the `trayEmoji` storage registry 
 
 ## Pushing inbox items
 
-Push items using the `pushInboxItem` GraphQL mutation. This works from plugins (via `usePluginMutation`), MCP tools (via `graphql_execute`), or the GraphQL playground.
+Push items using the `pushInboxItem` GraphQL mutation. This works from plugins (via `usePluginMutation`) or MCP tools (via `graphql_execute`).
 
 ### Minimal example
 

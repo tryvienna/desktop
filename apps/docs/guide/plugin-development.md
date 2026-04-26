@@ -1834,5 +1834,5 @@ defineEntity({
 
 1. **Missing Apollo Provider** — `usePluginQuery` and `usePluginMutation` require the plugin's Apollo client to be available. This is automatically set up by the host — but if you're testing in isolation, wrap your component in `<ApolloProvider>`.
 2. **Wrong import path** — Hooks must be imported from `@tryvienna/sdk/react`, not from `@tryvienna/sdk`. The root export doesn't include React dependencies.
-3. **Query not returning data** — Check that your GraphQL operation matches the schema. Use the GraphQL Playground (`apps/graphql-playground`) to test queries directly.
+3. **Query not returning data** — Check that your GraphQL operation matches the schema. Use the MCP `graphql_execute` tool to test queries directly.
 4. **Skip condition active** — If you pass `skip: true` or a `skip` condition that evaluates to true, the hook won't execute the query. Check your skip logic.

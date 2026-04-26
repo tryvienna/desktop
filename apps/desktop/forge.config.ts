@@ -66,7 +66,7 @@ const config: ForgeConfig = {
     generateAssets: async () => {
       // Kill any stale dev server still holding our ports (e.g. after Cmd+C)
       let killedAny = false;
-      for (const port of [ports.vite, ports.profiler]) {
+      for (const port of [ports.vite]) {
         try {
           const pids = execFileSync('lsof', ['-ti', `:${port}`], {
             encoding: 'utf8',
@@ -87,7 +87,7 @@ const config: ForgeConfig = {
       if (killedAny) await new Promise((r) => setTimeout(r, 500));
 
       console.log(`⎡ Worktree: ${branch}`);
-      console.log(`⎢ Vite: ${ports.vite}  Profiler: ${ports.profiler}`);
+      console.log(`⎢ Vite: ${ports.vite}`);
       if (process.platform === 'darwin') {
         patchElectronAppName(branch);
       }

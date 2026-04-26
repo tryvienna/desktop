@@ -15,7 +15,7 @@ This change adds two features:
 ### Steps
 1. Start the app in dev mode
 2. Navigate to **Settings > Advanced**
-3. Scroll down past the Profiler toggle
+3. Scroll down past the Developer Mode toggle
 
 ### Expected
 - An **"Event Registry"** section is visible
@@ -79,7 +79,7 @@ This change adds two features:
 ## 5. GraphQL API
 
 ### Steps
-1. Open the GraphQL playground or use the dev tools console
+1. Use the MCP `graphql_execute` tool or the dev tools console
 2. Run:
    ```graphql
    query {

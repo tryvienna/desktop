@@ -923,7 +923,7 @@ describe('GraphQL Schema', () => {
     expect(s.appearance!.compactMode).toBe(false);
     expect(s.ai!.defaultModel).toBe('sonnet');
     expect(s.ai!.cliPath).toBeNull();
-    expect(s.advanced!.profilerEnabled).toBe(false);
+    expect(s.advanced!.developerMode).toBeNull();
     expect(s.advanced!.autoCompactPercent).toBeNull();
   });
 
@@ -957,7 +957,7 @@ describe('GraphQL Schema', () => {
     expect(result.errors).toBeUndefined();
     const adv = result.data!.updateAdvancedSettings!.advanced!;
     expect(adv.developerMode).toBe(true);
-    expect(adv.profilerEnabled).toBe(false); // default preserved
+    expect(adv.focusMonitorEnabled).toBe(false); // default preserved
   });
 
   it('settings mutations are persistent across queries', async () => {

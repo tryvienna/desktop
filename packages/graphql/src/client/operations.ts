@@ -1133,7 +1133,7 @@ export const GET_SETTINGS = graphql(`
     settings {
       appearance { theme fontSize compactMode zoomLevel }
       ai { defaultModel cliPath cliSetupComplete autoCompactPercent }
-      advanced { developerMode profilerEnabled focusMonitorEnabled focusMonitorIntervalMs }
+      advanced { developerMode focusMonitorEnabled focusMonitorIntervalMs }
       permissions { activePreset rules { tool behavior entityType } }
     }
   }
@@ -1144,7 +1144,7 @@ export const UPDATE_APPEARANCE_SETTINGS = graphql(`
     updateAppearanceSettings(input: $input) {
       appearance { theme fontSize compactMode zoomLevel }
       ai { defaultModel cliPath cliSetupComplete autoCompactPercent }
-      advanced { developerMode profilerEnabled focusMonitorEnabled focusMonitorIntervalMs }
+      advanced { developerMode focusMonitorEnabled focusMonitorIntervalMs }
       permissions { activePreset rules { tool behavior entityType } }
     }
   }
@@ -1155,7 +1155,7 @@ export const UPDATE_AI_SETTINGS = graphql(`
     updateAiSettings(input: $input) {
       appearance { theme fontSize compactMode zoomLevel }
       ai { defaultModel cliPath cliSetupComplete autoCompactPercent }
-      advanced { developerMode profilerEnabled focusMonitorEnabled focusMonitorIntervalMs }
+      advanced { developerMode focusMonitorEnabled focusMonitorIntervalMs }
       permissions { activePreset rules { tool behavior entityType } }
     }
   }
@@ -1166,7 +1166,7 @@ export const UPDATE_ADVANCED_SETTINGS = graphql(`
     updateAdvancedSettings(input: $input) {
       appearance { theme fontSize compactMode zoomLevel }
       ai { defaultModel cliPath cliSetupComplete autoCompactPercent }
-      advanced { developerMode profilerEnabled focusMonitorEnabled focusMonitorIntervalMs }
+      advanced { developerMode focusMonitorEnabled focusMonitorIntervalMs }
       permissions { activePreset rules { tool behavior entityType } }
     }
   }
@@ -1177,7 +1177,7 @@ export const UPDATE_SETTINGS_RAW = graphql(`
     updateSettingsRaw(json: $json) {
       appearance { theme fontSize compactMode zoomLevel }
       ai { defaultModel cliPath cliSetupComplete autoCompactPercent }
-      advanced { developerMode profilerEnabled focusMonitorEnabled focusMonitorIntervalMs }
+      advanced { developerMode focusMonitorEnabled focusMonitorIntervalMs }
       permissions { activePreset rules { tool behavior entityType } }
     }
   }
@@ -1520,7 +1520,7 @@ export const UPDATE_PERMISSIONS_SETTINGS = graphql(`
     updatePermissionsSettings(input: $input) {
       appearance { theme fontSize compactMode zoomLevel }
       ai { defaultModel cliPath cliSetupComplete autoCompactPercent }
-      advanced { developerMode profilerEnabled focusMonitorEnabled focusMonitorIntervalMs }
+      advanced { developerMode focusMonitorEnabled focusMonitorIntervalMs }
       permissions { activePreset rules { tool behavior entityType } }
     }
   }

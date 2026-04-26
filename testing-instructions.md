@@ -45,7 +45,7 @@ Expected: table with columns `id, name, description, version, registry_version, 
 
 ## 3. Registry Sync Picks Up Plugins
 
-After the app starts, trigger a registry sync. In the GraphQL playground (or DevTools console):
+After the app starts, trigger a registry sync via MCP `graphql_execute` (or DevTools console):
 
 ```graphql
 mutation {
