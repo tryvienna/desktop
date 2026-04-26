@@ -43,7 +43,6 @@ type AdvancedSettings {
   developerMode: Boolean
   focusMonitorEnabled: Boolean
   focusMonitorIntervalMs: Int
-  profilerEnabled: Boolean
 }
 
 """AI and model settings"""
@@ -1905,7 +1904,6 @@ input UpdateAdvancedSettingsInput {
   developerMode: Boolean
   focusMonitorEnabled: Boolean
   focusMonitorIntervalMs: Int
-  profilerEnabled: Boolean
 }
 
 input UpdateAiSettingsInput {

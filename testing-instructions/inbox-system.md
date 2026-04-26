@@ -10,7 +10,7 @@ Core inbox feature allowing plugins and Vienna to push notification/action items
 
 ## Test 1: Database Migration
 1. Start the app (the migration v27 runs automatically)
-2. Open the GraphQL playground or use the MCP `graphql_execute` tool
+2. Use the MCP `graphql_execute` tool
 3. Run: `query { inboxUnreadCount }`
 4. **Expected**: Returns `{ "inboxUnreadCount": 0 }` (no errors)
 

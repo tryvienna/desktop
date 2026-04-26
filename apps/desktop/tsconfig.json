@@ -22,7 +22,6 @@
     { "path": "../../packages/ipc" },
     { "path": "../../packages/logger" },
     { "path": "../../packages/paths" },
-    { "path": "../../packages/profiler-sdk" },
     { "path": "../../packages/ui" }
   ]
 }

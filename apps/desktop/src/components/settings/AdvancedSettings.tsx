@@ -29,20 +29,6 @@ export function AdvancedSettings() {
         />
       </SettingsRow>
 
-      <SettingsRow
-        label="Profiler"
-        description="Collect CPU, memory, and process metrics every 5 seconds."
-        htmlFor="profiler"
-      >
-        <Switch
-          id="profiler"
-          checked={advanced.profilerEnabled ?? false}
-          onCheckedChange={(checked) =>
-            updateAdvanced({ variables: { input: { profilerEnabled: checked } } })
-          }
-        />
-      </SettingsRow>
-
       <Separator />
 
       <div className="grid gap-2">

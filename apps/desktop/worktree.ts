@@ -43,14 +43,12 @@ export function derivePort(seed: string, basePort: number): number {
 /**
  * Derive deterministic dev-server ports for a given branch.
  *
- * Ranges chosen to avoid the previous defaults (5173, 3100):
- *   - vite:     5200 – 5299
- *   - profiler: 3200 – 3299
+ * Ranges chosen to avoid the previous defaults (5173):
+ *   - vite: 5200 – 5299
  */
 export function getWorktreePorts(branch: string) {
   return {
     vite: derivePort(branch, 5200),
-    profiler: derivePort(branch, 3200),
   };
 }
 

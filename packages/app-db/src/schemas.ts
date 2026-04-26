@@ -513,7 +513,6 @@ export type AiSettings = z.infer<typeof AiSettingsSchema>;
 export const AdvancedSettingsSchema = z.object({
   /** null = use environment default (true for dev builds, false for production) */
   developerMode: z.boolean().nullable().default(null),
-  profilerEnabled: z.boolean().default(false),
   /** Whether the focus monitor is actively polling. */
   focusMonitorEnabled: z.boolean().default(false),
   /** Polling interval in milliseconds (500ms–60s). */
@@ -627,7 +626,6 @@ export type UpdateAiSettings = z.infer<typeof UpdateAiSettingsSchema>;
 
 export const UpdateAdvancedSettingsSchema = z.object({
   developerMode: z.boolean().nullable().optional(),
-  profilerEnabled: z.boolean().optional(),
   focusMonitorEnabled: z.boolean().optional(),
   focusMonitorIntervalMs: z.number().int().min(500).max(60000).optional(),
 });

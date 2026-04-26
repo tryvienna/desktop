@@ -38,7 +38,7 @@ Adds a user-configurable emoji for the macOS native status bar (tray) icon, with
 
 ## Test 5: Red Dot Notification Indicator
 1. Set an emoji via the picker
-2. Push an inbox item via GraphQL playground or MCP:
+2. Push an inbox item via MCP `graphql_execute`:
    ```graphql
    mutation {
      pushInboxItem(input: { title: "Test notification", source: "test" }) {

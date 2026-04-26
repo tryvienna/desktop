@@ -50,12 +50,11 @@ Completely strips Mixpanel analytics from the desktop app ahead of open-sourcing
 1. With the app running, open Settings → Advanced.
 2. Verify the section shows ONLY these rows (in order):
    - Developer Mode
-   - Profiler
    - Focus Monitor (separator above it)
    - Event Registry (separator above it)
    - JSON editor (at the bottom)
 3. Confirm the "Telemetry" row with its "Send anonymous usage data…" description is GONE.
-4. Toggle "Developer Mode" and "Profiler" to confirm the remaining rows still work end-to-end (optimistic UI update + persisted after reload).
+4. Toggle "Developer Mode" to confirm the remaining rows still work end-to-end (optimistic UI update + persisted after reload).
 
 ### 6. GraphQL schema no longer exposes `telemetryEnabled`
 1. From the repo root, run:
@@ -71,7 +70,7 @@ Completely strips Mixpanel analytics from the desktop app ahead of open-sourcing
 ### 7. Existing settings files don't break the app
 1. Before launching, hand-edit your userData `settings.json` so the `advanced` block contains a stale `telemetryEnabled` key:
    ```json
-   "advanced": { "developerMode": false, "telemetryEnabled": true, "profilerEnabled": false }
+   "advanced": { "developerMode": false, "telemetryEnabled": true }
    ```
 2. Launch the app.
 3. Verify no validation crash and that Settings → Advanced still renders normally. The unknown key should be silently stripped on the next settings write (Zod's default behavior for extra fields).
@@ -82,7 +81,7 @@ Run these from the repo root:
 pnpm --filter @vienna/app-db test
 pnpm --filter @vienna/graphql test
 ```
-Both should pass. The updated assertions should no longer reference `telemetryEnabled` and instead use `profilerEnabled` as the representative advanced-setting default.
+Both should pass. The updated assertions should no longer reference `telemetryEnabled` and instead use `developerMode` as the representative advanced-setting default.
 
 ### 9. Typecheck regression check
 1. Build workspace deps: `pnpm -r --parallel build` (or enough of them to satisfy cross-package types).

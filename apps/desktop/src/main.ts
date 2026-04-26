@@ -21,7 +21,6 @@ import { promisify } from 'node:util';
 import { mainEnv } from '@vienna/env/main';
 import { createMainLogger } from '@vienna/logger/main';
 import { createPaths } from '@vienna/paths/main';
-import { ProfilerClient } from '@vienna/profiler-sdk';
 import { openAppDatabase, closeAppDatabase, createAppDb, TagFileStore, EntityToolStore } from '@vienna/app-db';
 import { openDatabase as openAgentDatabase, closeDatabase as closeAgentDatabase, SessionRepository, EventRepository, DirectoryRepository, PermissionRuleRepository } from '@vienna/agent-db';
 import { createDefaultRegistry } from '@vienna/agent-providers';
@@ -267,14 +266,6 @@ const bootSecureStorage = createSecureStorage({
   storageDir: path.join(baseDir, 'secure-storage'),
   encryption,
   fallbackBehavior: mainEnv.NODE_ENV === 'production' ? 'throw' : 'plaintext',
-});
-
-// --- Profiler SDK ---
-const profiler = new ProfilerClient({
-  serverUrl: 'http://localhost:3100',
-  appName: 'Vienna',
-  branch: typeof __VIENNA_BRANCH__ !== 'undefined' ? __VIENNA_BRANCH__ : undefined,
-  appDirectory: path.resolve(__dirname, '../..'),
 });
 
 // --- Protocol Scheme (deep links) ---
@@ -1253,10 +1244,6 @@ app.on('ready', async () => {
       });
   }
 
-  // Expose for Playwright e2e tests
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  (globalThis as any).__profilerClient = profiler;
-
   // --- Keybindings ---
   const keybindingsEmitter = createEmitter(keybindingsEvents, {
     getWebContents: () => BrowserWindow.getAllWindows().map((w) => w.webContents),
@@ -1745,11 +1732,6 @@ app.on('ready', async () => {
     }
   }
 
-  // Only start the profiler if explicitly enabled in settings (off by default)
-  if (appDb.settings.getAll().advanced.profilerEnabled) {
-    profiler.start();
-  }
-
   // Restore persisted zoom level and defer file index warming + routine scheduler.
   const win = BrowserWindow.getAllWindows()[0];
   if (win) {
@@ -1822,7 +1804,6 @@ app.on('will-quit', (e) => {
   destroyActionFormWindow();
   keybindingsManager?.cleanup();
   authManager?.stopPeriodicValidation();
-  profiler.stop();
   routineScheduler?.stop();
   focusMonitor?.stop();
   registrySyncScheduler?.stop();
